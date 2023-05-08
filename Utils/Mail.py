@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #===============================================================================
 # gmme-pylib for Python
-# Copyright (c) 2002, GMM Enterprises, LLC.
+# Copyright (c) 2002 - 2023, GMM Enterprises, LLC.
 # Licensed under the GMM Software License
 # All rights reserved 
 #===============================================================================
