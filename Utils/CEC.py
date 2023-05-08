@@ -1,11 +1,12 @@
 #!/usr/bin/env python
-#=========================================================================================
-#  GMMPythonLib for Python
-#  Copyright (c) 2002, GMM Enterprises, LLC.  Licensed under the GMM Software License 
-#  All rights reserved 
-#=========================================================================================
+#===============================================================================
+# gmme-pylib for Python
+# Copyright (c) 2002, GMM Enterprises, LLC.
+# Licensed under the GMM Software License
+# All rights reserved 
+#===============================================================================
 #	Author:	David Crickenberger
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 #	Packages:
 #		Utils::CommonErrCodes
 #

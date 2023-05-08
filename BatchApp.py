@@ -1,11 +1,12 @@
 #!/usr/bin/env python
-#=========================================================================================
-#  GMMPythonLib for Python
-#  Copyright (c) 2002, GMM Enterprises, LLC.  Licensed under the GMM Software License 
-#  All rights reserved 
-#=========================================================================================
+#===============================================================================
+# gmme-pylib for Python
+# Copyright (c) 2002, GMM Enterprises, LLC.
+# Licensed under the GMM Software License
+# All rights reserved 
+#===============================================================================
 #	Author:	David Crickenberger
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # 	Description:
 #		This package contains the BatchApp object.  This is a base application
 #		object that takes care of common batch processing stuff.  The object

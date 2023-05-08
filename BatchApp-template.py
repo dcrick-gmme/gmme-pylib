@@ -1,6 +1,12 @@
+#!/usr/bin/env python
 #===============================================================================
-#
-#   Author: David Crickenberger
+# gmme-pylib for Python
+# Copyright (c) 2002, GMM Enterprises, LLC.
+# Licensed under the GMM Software License
+# All rights reserved 
+#===============================================================================
+#   Author:	David Crickenberger
+# -----------------------------------------------------------------------------
 #
 #   Desc:   Template main .py file for using GMME stuff
 #
