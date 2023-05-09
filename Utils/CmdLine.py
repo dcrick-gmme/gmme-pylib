@@ -115,11 +115,12 @@ class CmdLine() :
     def AddArgsFile(self, a_file) :
         #-----------------------------------------------------------------------
         #-- dbg stuff
-        if self.m_dbgOn : print("DBG-Utils::CmdLine::addArgsFile == a_file => " + a_file)
+        if self.m_dbgOn :
+            print("DBG-Utils::CmdLine::addArgsFile == a_file => " + a_file)
+            print("DBG-Utils:: current folder is => " + os.getcwd())
 
         #-----------------------------------------------------------------------
         #-- open file and process
-#        l_cwd = os.getcwd()
         l_file = os.path.expanduser(a_file)
         if self.m_dbgOn : print("DBG-Utils::CmdLine::opening file => " + l_file)
 
@@ -456,13 +457,22 @@ def CreateDbgOn() :
     return CmdLine(True)
 
 
+'F:\\crick3\\dev\\python\\gmme-pylib\\Utils\\CmdLineTest\\custperf.opt'
 #===============================================================================
 # Self test of module
 #===============================================================================
 if __name__ == "__main__" :
 
+    l_optBase = 'CmdLineTest\\custperf.opt'
+
+    #---------------------------------------------------------------------------
+    # -- initialize test .opt file nmae
+    l_utilBase = os.getcwd() + "\\Utils"
+    l_optFile = l_utilBase + "\\" + l_optBase
+
+
     l_cmdline = CmdLine(True)
-    l_cmdline.AddArgsFile('CmdLineTest\\custperf.opt')
+    l_cmdline.AddArgsFile(l_optFile)
 
     l_rc = l_cmdline.IsOpt('-rptExt')
     l_rc = l_cmdline.IsOpt('-rptName')
