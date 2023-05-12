@@ -462,18 +462,29 @@ def CreateDbgOn() :
 # Self test of module
 #===============================================================================
 if __name__ == "__main__" :
+    
+    import os
+    import sys
 
-    l_optBase = 'CmdLineTest\\custperf.opt'
+    def s_CmdlineEnvOptFile(): return "CMDLINE_TESTOPTFILE"
+                              
 
     #---------------------------------------------------------------------------
-    # -- initialize test .opt file nmae
-    l_utilBase = os.getcwd() + "\\Utils"
-    l_optFile = l_utilBase + "\\" + l_optBase
-
+    #-- initialize CmdLine Object and pull info from command line for a fixed
+    #-- file
+    l_cwd = os.getcwd()
 
     l_cmdline = CmdLine(True)
-    l_cmdline.AddArgsFile(l_optFile)
+    if len(sys.argv) == 1 :
+        #-- pass .opt file to process from env or default
+        l_cmdline.AddArgsFile(os.getenv(s_CmdlineEnvOptFile(), "./CmdLineTest/custperf.opt"))
+    else :
+        #-- pass in what is ever on the command line
+        l_cmdline.AddArgsArray(sys.argv[1:])
 
+    
+    #---------------------------------------------------------------------------
+    #-- test what was loaded from given .opt
     l_rc = l_cmdline.IsOpt('-rptExt')
     l_rc = l_cmdline.IsOpt('-rptName')
     l_rc = l_cmdline.IsOpt('-xrptName')
