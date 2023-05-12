@@ -1,0 +1,29 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "CmdLine-test-CmdLine",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["@${workspaceFolder}/Utils/CmdLineTest/custperf.opt"]
+//            "cwd": "${workspaceFolder}/Utils"
+        },
+        {
+            "name": "CmdLine-test-NoCmdLine",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "env": {"CMDLINE_TESTOPTFILE": "F:\\crick3\\dev\\python\\gmme-pylib\\Utils\\CmdLineTest\\custperf.opt"},
+//            "args": ["@${workspaceFolder}/Utils/CmdLineTest/custperf.opt"]
+//            "cwd": "${workspaceFolder}/Utils"
+        }
+    ]
+}
