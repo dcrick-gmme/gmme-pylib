@@ -61,6 +61,7 @@ class CmdLine() :
         #-- dbg stuff
         if self.m_dbgOn :
             print("DBG-Utils::CmdLine::addArgsArray == args - beg:")
+            print("DBG-cwd = " + os.getcwd())
             print("DBG-a_argv -- beg:")
             print(a_argv)
             print("DBG-a_argv -- end:")
@@ -207,7 +208,7 @@ class CmdLine() :
     #---------------------------------------------------------------------------
     #-- GetOptCombinedValue
     #---------------------------------------------------------------------------
-    def GetOptCombinedValue(self, a_opt, a_sep, a_def = None) :
+    def GetOptCombinedValue(self, a_opt, a_sep = os.path.sep, a_def = None) :
 
         if not self.m_isInit : return None
 
@@ -385,7 +386,7 @@ class CmdLine() :
             l_p1 = l_str.find('${')
             l_p2 = l_str.find('}', l_p1 + 2 )
             l_envSub = l_str[(l_p1 + 2):l_p2].upper()
-            l_str = l_str[:l_p1] + os.environ.get(l_envSub) + l_str[(l_p2 + 1):]
+            l_str = l_str[:l_p1] + os.environ.get(l_envSub, "") + l_str[(l_p2 + 1):]
 
         return l_str
 #        return {"val": l_str, "hide": l_hide, "path": a_isPath}
@@ -457,7 +458,6 @@ def CreateDbgOn() :
     return CmdLine(True)
 
 
-'F:\\crick3\\dev\\python\\gmme-pylib\\Utils\\CmdLineTest\\custperf.opt'
 #===============================================================================
 # Self test of module
 #===============================================================================
@@ -466,7 +466,7 @@ if __name__ == "__main__" :
     import os
     import sys
 
-    def s_CmdlineEnvOptFile(): return "CMDLINE_TESTOPTFILE"
+    def s_CmdlineEnvTestOptfile(): return "CMDLINE_TESTOPTFILE"
                               
 
     #---------------------------------------------------------------------------
@@ -477,7 +477,7 @@ if __name__ == "__main__" :
     l_cmdline = CmdLine(True)
     if len(sys.argv) == 1 :
         #-- pass .opt file to process from env or default
-        l_cmdline.AddArgsFile(os.getenv(s_CmdlineEnvOptFile(), "./CmdLineTest/custperf.opt"))
+        l_cmdline.AddArgsFile(os.environ.get(s_CmdlineEnvTestOptfile(), "./CmdLineTest/custperf.opt"))
     else :
         #-- pass in what is ever on the command line
         l_cmdline.AddArgsArray(sys.argv[1:])
@@ -491,7 +491,8 @@ if __name__ == "__main__" :
 
     l_rc1 = l_cmdline.GetPathOpt('-sfxTmp')
     l_rc2 = l_cmdline.GetPathOpt('-sfxTmp2')
-    l_rc3 = l_cmdline.GetOptCombinedValue('-sfxTmp', a_sep = os.path.sep)
+    l_rc3 = l_cmdline.GetOptCombinedValue('-sfxTmpC')        #, a_sep = os.path.sep)
+    l_rc4 = l_cmdline.GetOptCombinedValue('-sfxTmpC', a_sep = os.path.sep)
 
     l_rc = l_cmdline.GetPathOpt('-sfxTmp3')
     l_rc = False
