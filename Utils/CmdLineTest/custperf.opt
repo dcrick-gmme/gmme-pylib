@@ -1,3 +1,4 @@
+@./Utils/CmdLineTest/ReportDist_Common.opt
 -mailonerr
 //-mailonerrregex "(60)"
 -mailrctxt "this is a test"
@@ -10,7 +11,7 @@
 #-- comment line 1
 :-- comment line 2
 //-- comment line 3
-D:\PythonLib\GMMPythonLib\Utils\CmdLineTest\ReportDist_Common.opt
+@./Utils/CmdLineTest/ReportDist_Common.opt
 //@CmdLineTest\ReportDist_Common.opt
 -logpath2 Custperf
 -logfile ReportDist_Custperf
