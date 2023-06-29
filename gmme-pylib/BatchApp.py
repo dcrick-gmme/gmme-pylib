@@ -1,4 +1,4 @@
-ex#!/usr/bin/env python
+#!/usr/bin/env python
 #===============================================================================
 # gmme-pylib for Python
 # Copyright (c) 2002, GMM Enterprises, LLC.
