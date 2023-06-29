@@ -1,4 +1,5 @@
 @./Utils/CmdLineTest/ReportDist_Common.opt
+-aaatestsubenv "${CMDLINE_TESTSUBENV}"
 -mailonerr
 //-mailonerrregex "(60)"
 -mailrctxt "this is a test"
