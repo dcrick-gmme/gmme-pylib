@@ -16,7 +16,9 @@
 #===============================================================================
 # $Log: $
 #===============================================================================
+import errno
 import os
+import os.path
 import re
 import random
 
@@ -114,16 +116,25 @@ class CmdLine() :
     #-- addArgsFile
     #---------------------------------------------------------------------------
     def AddArgsFile(self, a_file) :
+        l_dbgfunc = "DBG-Utils::CmdLine::addArgsFile"
         #-----------------------------------------------------------------------
         #-- dbg stuff
-        if self.m_dbgOn :
-            print("DBG-Utils::CmdLine::addArgsFile == a_file => " + a_file)
-            print("DBG-Utils:: current folder is => " + os.getcwd())
+        if self.m_dbgOn:
+            print(l_dbgfunc + "::a_file => " + a_file)
+            print(l_dbgfunc + "::current folder is => " + os.getcwd())
 
+        #-----------------------------------------------------------------------
+        #-- make sure file exists
+        if not os.path.exists(a_file):
+            if self.m_dbgOn: print(l_dbgfunc + "::ERROR !!! FILE DOES NOT EXISTS !!!")
+            raise FileNotFoundError(errno.ENOENT,
+                                    os.strerror(errno.ENOENT),
+                                    "OPT file could not be found: " + a_file + " [cwd = " + os.getcwd() + "]")
+        
         #-----------------------------------------------------------------------
         #-- open file and process
         l_file = os.path.expanduser(a_file)
-        if self.m_dbgOn : print("DBG-Utils::CmdLine::opening file => " + l_file)
+        if self.m_dbgOn: print(l_dbgfunc + "::opening file => " + l_file)
 
         with open(l_file) as l_optfile :
             for l_line in l_optfile :
@@ -142,9 +153,9 @@ class CmdLine() :
         self.m_isInit = True
 
         if self.m_dbgOn :
-            print("DBG-Utils::CmdLine::opening file == dump - beg:")
+            print(l_dbgfunc + "::opening file == dump - beg:")
             self.Dump()
-            print("DBG-Utils::CmdLine::opening file == dump - end:")
+            print(l_dbgfunc + "::opening file == dump - end:")
 
 
     #---------------------------------------------------------------------------

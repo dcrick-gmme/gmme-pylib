@@ -1,4 +1,4 @@
-@./Utils/CmdLineTest/ReportDist_Common.opt
+@./test-gmme-pylib/opt/ReportDist_Common.opt
 -aaatestsubenv "${CMDLINE_TESTSUBENV}"
 -mailonerr
 //-mailonerrregex "(60)"
@@ -12,7 +12,7 @@
 #-- comment line 1
 :-- comment line 2
 //-- comment line 3
-@./Utils/CmdLineTest/ReportDist_Common.opt
+@./test-gmme-pylib/opt/ReportDist_Common.opt
 //@CmdLineTest\ReportDist_Common.opt
 -logpath2 Custperf
 -logfile ReportDist_Custperf
