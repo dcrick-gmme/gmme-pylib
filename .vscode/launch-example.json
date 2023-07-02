@@ -17,7 +17,7 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": ["@./Utils/CmdLineTest/custperf.opt"]
+            "args": ["@./test-gmme-pylib/opt/custperf.opt"]
         },
         {
             "name": "CmdLine-test-env",
