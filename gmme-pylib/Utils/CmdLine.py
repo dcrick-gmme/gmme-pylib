@@ -481,7 +481,7 @@ if __name__ == "__main__" :
 
     #---------------------------------------------------------------------------
     #-- output python version
-    print("DBG-Utils::CmdLine::__main__- beg:")
+    print("DBG-Utils::CmdLine::__main__ - beg:")
     print("DBG-Utils::CmdLine::py version = " + sys.version)
                                   
 
@@ -513,3 +513,5 @@ if __name__ == "__main__" :
     l_rc = l_cmdline.GetPathOpt('-sfxTmp3')
     l_rc = False
     #l_test.addArgsLine("-t test${public}xx -xyx test2")
+
+    print("DBG-Utils::CmdLine::__main__ - end:")
