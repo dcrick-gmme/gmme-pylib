@@ -21,7 +21,7 @@ import os
 import os.path
 import re
 import random
-
+import sys
 
 #-------------------------------------------------------------------------------
 #-- Simulate Constants
@@ -478,7 +478,12 @@ if __name__ == "__main__" :
     import sys
 
     def s_CmdlineEnvTestOptfile(): return "CMDLINE_TESTOPTFILE"
-                              
+
+    #---------------------------------------------------------------------------
+    #-- output python version
+    print("DBG-Utils::CmdLine::__main__- beg:")
+    print("DBG-Utils::CmdLine::py version = " + sys.version)
+                                  
 
     #---------------------------------------------------------------------------
     #-- initialize CmdLine Object and pull info from command line for a fixed
@@ -508,4 +513,3 @@ if __name__ == "__main__" :
     l_rc = l_cmdline.GetPathOpt('-sfxTmp3')
     l_rc = False
     #l_test.addArgsLine("-t test${public}xx -xyx test2")
-
