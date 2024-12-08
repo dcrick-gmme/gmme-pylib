@@ -1,13 +1,4 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    //
-    //-- .opt files should be referenced as ./xxxx when they are off the ${workspaceFolder}
-    //-- since the ${workspaceFolder} is nto part of the environment for the running
-    //-- python script.
-    //
-    //
     "version": "0.2.0",
     "configurations": [
         {
@@ -26,7 +17,7 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "env": {"CMDLINE_TESTOPTFILE": "./Utils/CmdLineTest/custperf.opt"},
+            "env": {"CMDLINE_TESTOPTFILE": "./Utils/CmdLineTest/custperf.opt"}
         }
     ]
 }

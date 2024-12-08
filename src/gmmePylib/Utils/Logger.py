@@ -24,8 +24,13 @@ import socket
 import sys
 import time
 import traceback
-import Utils.Object
-import Utils.Other
+
+##-- import Utils stuff
+#l_cwd = os.getcwd()
+#if __name__ == "__main__" :
+#    sys.path.append("./gmme-pylib")    
+import Object
+import Other
 
 
 
@@ -79,6 +84,8 @@ def LogFatal(a_msg) :
     if g_loggerObj is not None : g_loggerObj.LogFatal(a_msg, 1)
 def LogInfo(a_msg) :
     if g_loggerObj is not None : g_loggerObj.LogInfo(a_msg, 1)
+#def LoggerGlobalFunctions():
+#    global LogRaw
 def LogRaw(a_msg) :
     if g_loggerObj is not None : g_loggerObj.LogRaw(a_msg, 1)
 def LogSql(a_msg) :
@@ -386,5 +393,5 @@ if __name__ == "__main__" :
     l_logger = Logger(file=l_appname, logpath='d:\\junk\\tlogs', logfile='test.log', append=True)
     l_logger.Open()
     l_logger.LogRaw('test message 1')
-    LogRaw('test message 2')
+#    LogRaw('test message 2')
     l_rc = 0

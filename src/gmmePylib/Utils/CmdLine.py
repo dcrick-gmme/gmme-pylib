@@ -102,10 +102,10 @@ class CmdLine() :
     def CheckOptForTags_(self, a_opt):
         l_opt = a_opt
         l_tags = []
-        l_split = re.split("(^.*)(\#\{(.*)\}$)", a_opt)
+        l_split = re.split("(^.*)(\\#\\{(.*)\\}$)", a_opt)
         if len(l_split) > 1:
             l_opt = l_split[1]
-            l_tagsTmp = re.split("[ ,\:\|]", l_split[3])
+            l_tagsTmp = re.split("[ ,\\:\\|]", l_split[3])
             for l_tag in l_tagsTmp:
                 l_tags.append("HIDE" if l_tag == "HIDE" or l_tag == "HIDDEN" or l_tag == "SECRET" else l_tag)
 
@@ -467,51 +467,3 @@ def Create(a_dbgOn = False) :
 
 def CreateDbgOn() :
     return CmdLine(True)
-
-
-#===============================================================================
-# Self test of module
-#===============================================================================
-if __name__ == "__main__" :
-    
-    import os
-    import sys
-
-    def s_CmdlineEnvTestOptfile(): return "CMDLINE_TESTOPTFILE"
-
-    #---------------------------------------------------------------------------
-    #-- output python version
-    print("DBG-Utils::CmdLine::__main__ - beg:")
-    print("DBG-Utils::CmdLine::py version = " + sys.version)
-                                  
-
-    #---------------------------------------------------------------------------
-    #-- initialize CmdLine Object and pull info from command line for a fixed
-    #-- file
-    l_cwd = os.getcwd()
-
-    l_cmdline = CmdLine(True)
-    if len(sys.argv) == 1 :
-        #-- pass .opt file to process from env or default
-        l_cmdline.AddArgsFile(os.environ.get(s_CmdlineEnvTestOptfile(), "./CmdLineTest/custperf.opt"))
-    else :
-        #-- pass in what is ever on the command line
-        l_cmdline.AddArgsArray(sys.argv[1:])
-
-    
-    #---------------------------------------------------------------------------
-    #-- test what was loaded from given .opt
-    l_rc = l_cmdline.IsOpt('-rptExt')
-    l_rc = l_cmdline.IsOpt('-rptName')
-    l_rc = l_cmdline.IsOpt('-xrptName')
-
-    l_rc1 = l_cmdline.GetPathOpt('-sfxTmp')
-    l_rc2 = l_cmdline.GetPathOpt('-sfxTmp2')
-    l_rc3 = l_cmdline.GetOptCombinedValue('-sfxTmpC')        #, a_sep = os.path.sep)
-    l_rc4 = l_cmdline.GetOptCombinedValue('-sfxTmpC', a_sep = os.path.sep)
-
-    l_rc = l_cmdline.GetPathOpt('-sfxTmp3')
-    l_rc = False
-    #l_test.addArgsLine("-t test${public}xx -xyx test2")
-
-    print("DBG-Utils::CmdLine::__main__ - end:")
