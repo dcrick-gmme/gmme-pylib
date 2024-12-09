@@ -1,6 +1,7 @@
 #-- gmme ones
 .vscode/launch.json
 .vscode/settings.json
+tests/logs
 tests/utils/other/deletefiles/testfiles
 
 
