@@ -25,13 +25,8 @@ import sys
 import time
 import traceback
 
-##-- import Utils stuff
-#l_cwd = os.getcwd()
-#if __name__ == "__main__" :
-#    sys.path.append("./gmme-pylib")    
-import Object
-import Other
-
+import gmmePylib.Utils.Object
+import gmmePylib.Utils.Other
 
 
 #-------------------------------------------------------------------------------
@@ -99,18 +94,19 @@ def LogWarning(a_msg) :
 #-------------------------------------------------------------------------------
 #-- Static functions/objects
 #-------------------------------------------------------------------------------
-def logObjectFuncsCreate_(a_obj) :
+def logObjectFuncsCreate_(a_obj):
 
     global g_loggerObj
     
-    if g_loggerObj is None : g_loggerObj = a_obj
+    if g_loggerObj is None:
+        g_loggerObj = a_obj
 
 
-def logObjectFuncsRemove_(a_obj) :
+def logObjectFuncsRemove_(a_obj):
 
     global g_loggerObj
 
-    if id(g_loggerObj) == id(a_obj) :
+    if id(g_loggerObj) == id(a_obj):
         g_loggerObj = None
 
     g_loggerObjs_.remove(a_obj)
@@ -119,12 +115,10 @@ def logObjectFuncsRemove_(a_obj) :
 #-------------------------------------------------------------------------------
 #-- Class LoggerException
 #-------------------------------------------------------------------------------
-class LoggerException() :
+class LoggerException():
 
-    m_msg = None
-
-    def __init__(self, a_msg) :
-        m_msg = a_msg
+    def __init__(self, a_msg):
+        self.m_msg = a_msg
 
     
 #-------------------------------------------------------------------------------
@@ -140,9 +134,10 @@ class Logger() :
     #---------------------------------------------------------------------------
     #-- ctor
     #---------------------------------------------------------------------------
-    def __init__(self, **a_args) :
+    def __init__(self, **a_args):
 
         global g_loggerObjs_
+
 
         #-----------------------------------------------------------------------
         #-- initialize with default values
@@ -160,8 +155,14 @@ class Logger() :
 
 
         #-----------------------------------------------------------------------
-        #-- see if any parameters was passed
-        if len(a_args) > 0 : self.argsHelper_(a_args)
+        #-- see if any parameters was passed, and initialize some to a default
+        #-- value if not passed
+        if len(a_args) > 0: self.argsHelper_(a_args)
+
+        if self.m_file is None: sys.argv[0]
+        if self.m_logPath is None: self.m_logPath = os.path.dirname(self.m_file)
+        if self.m_logFile is None: self.m_logFile = os.path.basename(self.m_file) + ".log"
+
         self.argsCheck_()
 
         g_loggerObjs_.add(self)
@@ -170,29 +171,29 @@ class Logger() :
     #---------------------------------------------------------------------------
     #-- dtor
     #---------------------------------------------------------------------------
-    def __del__(self) :
+    def __del__(self):
 
         global g_loggerObjs_
 
         #-----------------------------------------------------------------------
         #-- close if open
-        if self.m_isOpen : self.m_hndl.close()
+        if self.m_isOpen: self.m_hndl.close()
         if g_loggerObjs_ is not None: g_loggerObjs_.remove(self)
 
 
     #---------------------------------------------------------------------------
     #-- argsCheck_
     #---------------------------------------------------------------------------
-    def argsCheck_(self) :
-        if self.m_file is None : raise LoggerException("'file' not initialized")
-        if self.m_logPath is None : raise LoggerException("'logPath' not initialized")
-        if self.m_logFile is None : raise LoggerException("'logFile' not initialized")
+    def argsCheck_(self):
+        if self.m_file is None: raise LoggerException("'file' not initialized")
+        if self.m_logPath is None: raise LoggerException("'logPath' not initialized")
+        if self.m_logFile is None: raise LoggerException("'logFile' not initialized")
 
 
     #---------------------------------------------------------------------------
     #-- argsHelper_
     #---------------------------------------------------------------------------
-    def argsHelper_(self, a_args) :
+    def argsHelper_(self, a_args):
 
         #-----------------------------------------------------------------------
         #-- process args
@@ -204,20 +205,20 @@ class Logger() :
             'stdout': 'm_tmpStdout',
             'dtfmt': 'm_dtfmt'
         }
-        l_found = Utils.Object.Init(self, l_members, a_args)
+        l_found = gmmePylib.Utils.Object.Init(self, l_members, a_args)
 
 
         #-----------------------------------------------------------------------
         #-- finish processing args and make sure require ones are set
-        if l_found :
-            if 'tmpAppend' in self.__dict__ : self.m_append = Utils.Other.IsYesOrNo(self.m_tmpAppend)
-            if 'tmpStdout' in self.__dict__ : self.m_stdout = Utils.Other.IsYesOrNo(self.m_tmpStdout)
+        if l_found:
+            if 'tmpAppend' in self.__dict__: self.m_append = gmmePylib.Utils.Other.IsYesOrNo(self.m_tmpAppend)
+            if 'tmpStdout' in self.__dict__: self.m_stdout = gmmePylib.Utils.Other.IsYesOrNo(self.m_tmpStdout)
 
 
     #---------------------------------------------------------------------------
     #-- close
     #---------------------------------------------------------------------------
-    def Close(self) :
+    def Close(self):
         
         self.m_hndl.close()
         
@@ -228,7 +229,7 @@ class Logger() :
         self.m_isOpen = False
         self.m_append = False
         self.m_stdout = True
-        self.m_dtfmt = "%Y%m%d%H%M%S";
+        self.m_dtfmt = "%Y%m%d%H%M%S"
 
         logObjectFuncsRemove_(self)
 
@@ -236,12 +237,12 @@ class Logger() :
     #---------------------------------------------------------------------------
     #-- open
     #---------------------------------------------------------------------------
-    def Open(self, **a_args) :
+    def Open(self, **a_args):
 
         #-----------------------------------------------------------------------
         #-- we have no parameters, so make sure uid,pwd,sid were passed into
         #-- new.
-        if len(a_args) > 0 : self.argsHelper_(a_args)
+        if len(a_args) > 0: self.argsHelper_(a_args)
         self.argsCheck_()
 
 
@@ -265,28 +266,28 @@ class Logger() :
         #-- build full name for log file
         self.m_logPath.rstrip(os.path.sep)
         self.m_logFull = self.m_logPath
-        if self.m_logPath != '' :
-            Utils.Other.OSMakeFolder(self.m_logPath)
+        if self.m_logPath != '':
+            gmmePylib.Utils.Other.OSMakeFolder(self.m_logPath)
             self.m_logFull += os.path.sep
         self.m_logFull += self.m_logFile
 
         l_tmp = os.path.splitext(self.m_logFull)
-        if l_tmp[1] == '' : self.m_logFull += '_' + l_dttm + '.log'
+        if l_tmp[1] == '': self.m_logFull += '_' + l_dttm + '.log'
 
 
         #-----------------------------------------------------------------------
         #-- open the log file or append to the log file
         l_otype = 'w'
-        if self.m_append : l_otype = 'a'
+        if self.m_append: l_otype = 'a'
 
         try :
             self.m_hndl = open(self.m_logFull, l_otype, 1)
             self.m_isOpen = True
-        except IOError :
+        except IOError:
             self.m_isOpen = False
             #traceback.print_exc()
 
-        if self.m_isOpen : logObjectFuncsCreate_(self)
+        if self.m_isOpen: logObjectFuncsCreate_(self)
 
         return self.m_isOpen
 
@@ -294,18 +295,18 @@ class Logger() :
     #---------------------------------------------------------------------------
     #-- logRaw
     #---------------------------------------------------------------------------
-    def LogRaw(self, a_msg) :
+    def LogRaw(self, a_msg):
 
-        if self.m_isOpen :
+        if self.m_isOpen:
             self.m_hndl.write(a_msg + '\n')
             self.m_hndl.flush()
-        if self.m_stdout : print(a_msg)
+        if self.m_stdout: print(a_msg)
 
 
     #---------------------------------------------------------------------------
     #-- msg_
     #---------------------------------------------------------------------------
-    def msg_(self, a_type, a_msg, a_level = 0) :
+    def msg_(self, a_type, a_msg, a_level = 0):
 
         #-----------------------------------------------------------------------
         #-- determine calling function
@@ -313,7 +314,7 @@ class Logger() :
         
         l_curFrame = sys._getframe(l_level)
         l_file = l_curFrame.f_code.co_filename
-        if l_file == '<string>' : l_file = os.path.basename(sys.argv[0])
+        if l_file == '<string>': l_file = os.path.basename(sys.argv[0])
         l_line = l_curFrame.f_lineno
         #l_func = l_curFrame.f_code.co_name
         l_func = l_file
@@ -322,12 +323,12 @@ class Logger() :
         #-----------------------------------------------------------------------
         #-- determine date/time
         l_time = time.time()
-        l_timeSec, l_timeMsec = Utils.Other.SplitTimeSeconds(l_time)
+        l_timeSec, l_timeMsec = gmmePylib.Utils.Other.SplitTimeSeconds(l_time)
 
 
         #-----------------------------------------------------------------------
         #-- build message
-        l_msg = Utils.Other.FormatTime(l_time, '%m/%d/%Y %H:%M:%S.') + str(l_timeMsec)[0:3].zfill(3) + ' '
+        l_msg = gmmePylib.Utils.Other.FormatTime(l_time, '%m/%d/%Y %H:%M:%S.') + str(l_timeMsec)[0:3].zfill(3) + ' '
         l_msg += self.m_host + ' '
         l_msg += self.m_file + ' '
         l_msg += l_func.ljust(20) + ' '
@@ -336,53 +337,66 @@ class Logger() :
         l_msg += a_type.ljust(6) + ' '
         l_msg += a_msg
 
-        if self.m_isOpen :
+        if self.m_isOpen:
             self.m_hndl.write(l_msg + '\n')
             self.m_hndl.flush()
-        if self.m_stdout : print(l_msg)
+        if self.m_stdout: print(l_msg)
 
 
     #---------------------------------------------------------------------------
     #-- log functions
     #---------------------------------------------------------------------------
-    def Debug(self, a_msg, a_level = 0) : self.msg_('debug', a_msg, a_level + 1)
-    def Fatal(self, a_msg, a_level = 0) : self.msg_('fatal', a_msg, a_level + 1)
-    def Info(self, a_msg, a_level = 0) : self.msg_('info', a_msg, a_level + 1)
-    def Sql(self, a_msg, a_level = 0) : self.msg_('sql', a_msg, a_level + 1)
-    def Warn(self, a_msg, a_level = 0) : self.msg_('warn', a_msg, a_level + 1)
-    def Warning(self, a_msg, a_level = 0) : self.msg_('warn', a_msg, a_level + 1)
+    def Debug(self, a_msg, a_level = 0): self.msg_('debug', a_msg, a_level + 1)
+    def Fatal(self, a_msg, a_level = 0): self.msg_('fatal', a_msg, a_level + 1)
+    def Info(self, a_msg, a_level = 0): self.msg_('info', a_msg, a_level + 1)
+    def Sql(self, a_msg, a_level = 0): self.msg_('sql', a_msg, a_level + 1)
+    def Warn(self, a_msg, a_level = 0): self.msg_('warn', a_msg, a_level + 1)
+    def Warning(self, a_msg, a_level = 0): self.msg_('warn', a_msg, a_level + 1)
 
-    def LogDebug(self, a_msg, a_level = 0) : self.msg_('debug', a_msg, a_level + 1)
-    def LogFatal(self, a_msg, a_level = 0) : self.msg_('fatal', a_msg, a_level + 1)
-    def LogInfo(self, a_msg, a_level = 0) : self.msg_('info', a_msg, a_level + 1)
-    def LogSql(self, a_msg, a_level = 0) : self.msg_('sql', a_msg, a_level + 1)
-    def LogWarn(self, a_msg, a_level = 0) : self.msg_('warn', a_msg, a_level + 1)
-    def LogWarning(self, a_msg, a_level = 0) : self.msg_('warn', a_msg, a_level + 1)
+    def LogDebug(self, a_msg, a_level = 0): self.msg_('debug', a_msg, a_level + 1)
+    def LogFatal(self, a_msg, a_level = 0): self.msg_('fatal', a_msg, a_level + 1)
+    def LogInfo(self, a_msg, a_level = 0): self.msg_('info', a_msg, a_level + 1)
+    def LogSql(self, a_msg, a_level = 0): self.msg_('sql', a_msg, a_level + 1)
+    def LogWarn(self, a_msg, a_level = 0): self.msg_('warn', a_msg, a_level + 1)
+    def LogWarning(self, a_msg, a_level = 0): self.msg_('warn', a_msg, a_level + 1)
 
 
     #---------------------------------------------------------------------------
     #-- member access functions
     #---------------------------------------------------------------------------
-    def Append(self) : return self.m_append
-    def Dtfmt(self) : return self.m_dtfmt
-    def File(self) : return self.m_file
-    def IsOpen(self) : return self.m_isOpen
-    def LogFile(self) : return self.m_logFile
-    def LogFull(self) : return self.m_logFull
-    def LogPath(self) : return self.m_logPath
-    def Stdout(self) : return self.m_stdout
+    def Append(self): return self.m_append
+    def DateFormat(self): return self.m_dtfmt
+    def Dtfmt(self): return self.m_dtfmt
+    def File(self): return self.m_file
+    def IsOpen(self): return self.m_isOpen
+    def LogFile(self): return self.m_logFile
+    def LogFull(self): return self.m_logFull
+    def LogPath(self): return self.m_logPath
+    def Stdout(self): return self.m_stdout
 
 
 #-------------------------------------------------------------------------------
 #-- Create wrapper functions
 #-------------------------------------------------------------------------------
-def CreateLogger(**a_argv) :
+def CreateLogger(**a_argv):
     return Logger(**a_argv)
 
+
+#-------------------------------------------------------------------------------
+#-- Generate logfile name from appname
+#-------------------------------------------------------------------------------
+#def LogFileFromAppname():
+#    l_appname = sys.argv[0]
+#    l_appname = os.path.basename(sys.argv[0])
+#    l_appname = os.path.splitext(l_appname)[0]
+
+#    return l_appname
+ 
 
 #===============================================================================
 # Self test of module
 #===============================================================================
+'''
 if __name__ == "__main__" :
 
     l_t1 = time.time()
@@ -395,3 +409,4 @@ if __name__ == "__main__" :
     l_logger.LogRaw('test message 1')
 #    LogRaw('test message 2')
     l_rc = 0
+'''
