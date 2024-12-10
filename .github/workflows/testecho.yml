@@ -1,6 +1,9 @@
 name: Testing github actions
 
 on:
+    workflow_run: 
+        branches: [main]
+        
     push:
         branches: [main]
 
