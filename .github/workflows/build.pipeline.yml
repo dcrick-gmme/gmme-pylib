@@ -1,0 +1,18 @@
+# GitHub CI build pipeline for gmmePylib
+name: gmmePylib package CI build
+
+on:
+    pull_request:
+        branches: [main]
+
+jobs:
+    build:
+        runs-on: windows-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Setup python 3.13
+              uses: actions/setup-python@v5
+              with:
+                python-version: 3.13
+            - name: Check python version
+              run: python --version
