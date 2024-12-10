@@ -2,7 +2,7 @@
 name: gmmePylib package CI build
 
 on:
-    pull_request:
+    push:
         branches: [main]
 
 jobs:
