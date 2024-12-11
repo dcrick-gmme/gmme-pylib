@@ -1,38 +1,36 @@
 #!/usr/bin/env python
 #===============================================================================
 # gmme-pylib for Python
-# Copyright (c) 2002, GMM Enterprises, LLC.
+# Copyright (c) 2002 - 2024, GMM Enterprises, LLC.
 # Licensed under the GMM Software License
 # All rights reserved 
 #===============================================================================
-#	Author:	David Crickenberger
+# Author: David Crickenberger
 # ------------------------------------------------------------------------------
-# 	Description:
-#		This package contains the BatchApp object.  This is a base application
-#		object that takes care of common batch processing stuff.  The object
-#		will initialize and setup the following stuff:
-#			command line
-#			logger
+# Description:
+#	This package contains the BatchApp object.  This is a base application
+#	object that takes care of common batch processing stuff.  The object
+#	will initialize and setup the following stuff:
+#		command line
+#		logger
 #
-#		The class is used as follows:
+#	The class is used as follows:
 #
-#			my $l_rc = new BatchApp( args )->do( );
+#		my $l_rc = new BatchApp( args )->do( );
 #
-#		The following statements declares a new application object and starts
-#		processing.  The command line and all processing of .opt files will be
-#		completed at this point.  Processing consist of the following member
-#		functions being	called, in the following order (note: each of this
-#		functions will be declared as call backs):
+#	The following statements declares a new application object and starts
+#	processing.  The command line and all processing of .opt files will be
+#	completed at this point.  Processing consist of the following member
+#	functions being	called, in the following order (note: each of this
+#	functions will be declared as call backs):
 #
-#		1)	setDefaults()
-#		2)	preInit()
-#		3)	init()
-#		4)	run()
-#		5)	postShutdown()
-#
+#	1)	setDefaults()
+#	2)	preInit()
+#	3)	init()
+#	4)	run()
+#	5)	postShutdown()
 #===============================================================================
-# $Log: $
-#===============================================================================
+
 import os
 import re
 import sys
