@@ -1,22 +1,19 @@
 #!/usr/bin/env python
 #===============================================================================
 # gmme-pylib for Python
-# Copyright (c) 2002 - 2023, GMM Enterprises, LLC.
+# Copyright (c) 2002 - 2024, GMM Enterprises, LLC.
 # Licensed under the GMM Software License
 # All rights reserved 
 #===============================================================================
 #	Author:	David Crickenberger
 # ------------------------------------------------------------------------------
-#	Packages:
-#		Utils::CommonErrCodes
+# Packages:
+#	Utils::CommonErrCodes
 #
-# 	Description:
-#		Command line processor module.
+# Description:
+#	Command line processor module.
 #
 #===============================================================================
-# $Log: $
-#===============================================================================
-
 
 #-------------------------------------------------------------------------------
 #-- Common Error Codes
@@ -118,10 +115,3 @@ def ErrCodeToStr(a_code, a_desc = None) :
 
     if a_code in g_errCodeToStr : return g_errCodeToStr[a_code]
     return ''
-
-
-#===============================================================================
-# Self test of module
-#===============================================================================
-if __name__ == "__main__" :
-    print('test done')

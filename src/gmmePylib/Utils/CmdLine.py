@@ -1,21 +1,19 @@
 #!/usr/bin/env python
 #===============================================================================
 # gmme-pylib for Python
-# Copyright (c) 2002, GMM Enterprises, LLC.
+# Copyright (c) 2002 - 2024, GMM Enterprises, LLC.
 # Licensed under the GMM Software License
 # All rights reserved 
 #===============================================================================
-#	Author:	David Crickenberger
+# Author: David Crickenberger
 # ------------------------------------------------------------------------------
-#	Packages:
-#		Utils::CmdLine
+# Packages:
+#	Utils::CmdLine
 #
-# 	Description:
-#		Command line processor module.
-#
+# Description:
+#	Command line processor module.
 #===============================================================================
-# $Log: $
-#===============================================================================
+
 import errno
 import os
 import os.path

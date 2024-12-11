@@ -1,23 +1,21 @@
 #!/usr/bin/env python
 #===============================================================================
 # gmme-pylib for Python
-# Copyright (c) 2002 - 2023, GMM Enterprises, LLC.
+# Copyright (c) 2002 - 2024, GMM Enterprises, LLC.
 # Licensed under the GMM Software License
 # All rights reserved 
 #===============================================================================
-#	Author:	David Crickenberger
+# Author:	David Crickenberger
 # ------------------------------------------------------------------------------
-#	Packages:
-#		Utils.Mail
+# Packages:
+#	Utils.Mail
 #
-# 	Description:
-#		Command line processor module.
-#
+# Description:
+#	Command line processor module.
 #===============================================================================
-# $Log: $
-#===============================================================================
-import Utils.Other
 
+import gmmePylib.Utils.CmdLine
+import gmmePylib.Utils.Other
 
 #-- import modules need for mail
 import smtplib
@@ -59,23 +57,23 @@ class Mail() :
         #---------------------------------------------------------------------------
         #-- initialize new options
         l_cmdline = {
-            '_obj' : a_app.CmdLine(),
-            '_base' : a_base,
-            'smtp' : {'t' : Utils.CmdLine.GETOPTVALUE(), 'v' : 'm_smtp'},
-            'from' : {'t' : Utils.CmdLine.GETOPTVALUE(), 'v' : 'm_from'},
-            'subj' : {'t' : Utils.CmdLine.GETOPTVALUE(), 'v' : 'm_subj'},
-            'subject' : {'t' : Utils.CmdLine.GETOPTVALUE(), 'v' : 'm_subj'},
-            'to' : {'t' : Utils.CmdLine.GETOPTVALUE(), 'v' : 'm_to'},
-            'cc' : {'t' : Utils.CmdLine.GETOPTVALUE(), 'v' : 'm_cc'},
-            'bcc' : {'t' : Utils.CmdLine.GETOPTVALUE(), 'v' : 'm_bcc'},
-            'text' : {'t' : Utils.CmdLine.GETOPTVALUE(), 'v' : 'm_text'},
-            'textfile' : {'t' : Utils.CmdLine.GETOPTVALUE(), 'v' : 'm_textfile'},
-            'txt' : {'t' : Utils.CmdLine.GETOPTVALUE(), 'v' : 'm_text'},
-            'txtfile' : {'t' : Utils.CmdLine.GETOPTVALUE(), 'v' : 'm_textfile'},
-            'priority' : {'t' : Utils.CmdLine.GETOPTVALUE(), 'v' : 'm_priority'},
-            'dbglevel' : {'t' : Utils.CmdLine.GETOPTVALUE(), 'v' : 'm_dbgLevel'}
+            '_obj': a_app.CmdLine(),
+            '_base': a_base,
+            'smtp': {'t': gmmePylib.Utils.CmdLine.GETOPTVALUE(), 'v' : 'm_smtp'},
+            'from': {'t': gmmePylib.Utils.CmdLine.GETOPTVALUE(), 'v' : 'm_from'},
+            'subj': {'t': gmmePylib.Utils.CmdLine.GETOPTVALUE(), 'v' : 'm_subj'},
+            'subject': {'t': gmmePylib.Utils.CmdLine.GETOPTVALUE(), 'v' : 'm_subj'},
+            'to': {'t': gmmePylib.Utils.CmdLine.GETOPTVALUE(), 'v' : 'm_to'},
+            'cc': {'t': gmmePylib.Utils.CmdLine.GETOPTVALUE(), 'v' : 'm_cc'},
+            'bcc': {'t': gmmePylib.Utils.CmdLine.GETOPTVALUE(), 'v' : 'm_bcc'},
+            'text': {'t': gmmePylib.Utils.CmdLine.GETOPTVALUE(), 'v' : 'm_text'},
+            'textfile': {'t': gmmePylib.Utils.CmdLine.GETOPTVALUE(), 'v' : 'm_textfile'},
+            'txt': {'t' : gmmePylib.Utils.CmdLine.GETOPTVALUE(), 'v' : 'm_text'},
+            'txtfile': {'t' : gmmePylib.Utils.CmdLine.GETOPTVALUE(), 'v' : 'm_textfile'},
+            'priority': {'t' : gmmePylib.Utils.CmdLine.GETOPTVALUE(), 'v' : 'm_priority'},
+            'dbglevel': {'t' : gmmePylib.Utils.CmdLine.GETOPTVALUE(), 'v' : 'm_dbgLevel'}
         }
-        Utils.Object.InitWithCmdLine(self, None, l_cmdline);
+        gmmePylib.Utils.Object.InitWithCmdLine(self, None, l_cmdline);
 
 
     #---------------------------------------------------------------------------
@@ -196,8 +194,8 @@ def doSubstitute_(a_str, a_substitute) :
 
     #---------------------------------------------------------------------------
     #-- determine if we have anything to substitute
-    l_retStr = a_text
-    l_subKeys = Utils.Other.CreateUpperCaseDictKeys(a_substitute)
+    l_retStr = a_str
+    l_subKeys = gmmePylib.Utils.Other.CreateUpperCaseDictKeys(a_substitute)
 
     l_pos1 = l_retStr.find('@@', l_pos1)
     while l_pos1 > -1 :
@@ -219,4 +217,3 @@ def doSubstitute_(a_str, a_substitute) :
 #-------------------------------------------------------------------------------
 def Create(a_app, a_base) :
     return Mail(a_app, a_base)
-
