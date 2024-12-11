@@ -7,14 +7,14 @@ on:
 
 jobs:
     build:
-        runs-on: windows-latest
+        runs-on: ${{ vars.BUILD_RUNSON }}-${{ vars.BUILD_RUNSON_WINDOWS }}
         steps:
             - uses: actions/checkout@v4
 
-            - name: Setup python 3.13
+            - name: Setup python ${{ vars.BUILD_PYTHON_VER }}
               uses: actions/setup-python@v5
               with:
-                python-version: 3.13
+                python-version: ${{ vars.BUILD_PYTHON_VER }}
             
             - name: Check python version
               run: python --version
@@ -24,4 +24,8 @@ jobs:
                 pip install poetry
                 poetry build
 
-        
+            - name: Archive package
+              uses: actions/upload-artifact@v4
+              with:
+                name: gmmePylib
+                path: dist
