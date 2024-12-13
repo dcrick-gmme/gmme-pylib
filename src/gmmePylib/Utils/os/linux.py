@@ -18,30 +18,25 @@ import os
 import platform
 import time
 
-if platform.system() == "Windows":
-    from .os_.windows import *
-elif platform.system() == "Linux":
-    from .os_.linux import *
+""" if platform.system() == "Windows":
+    import win32api
+    import win32con
 
 
-
-""" import win32api
-import win32con
-
-
-#-- folder delete options
-def FOLDERDELETE_OPTS_INCREADONLY() : return 0x0001
-def FOLDERDELETE_OPTS_INCHIDDEN() : return 0x0002
-def FOLDERDELETE_OPTS_INCSYSTEM() : return 0x0004
-def FOLDERDELETE_OPTS_INCFOLDERS() : return 0x0008
-def FOLDERDELETE_OPTS_SUBFOLDERS() : return 0x0010
+    #-- folder delete options
+    def FOLDERDELETE_OPTS_INCREADONLY() : return 0x0001
+    def FOLDERDELETE_OPTS_INCHIDDEN() : return 0x0002
+    def FOLDERDELETE_OPTS_INCSYSTEM() : return 0x0004
+    def FOLDERDELETE_OPTS_INCFOLDERS() : return 0x0008
+    def FOLDERDELETE_OPTS_SUBFOLDERS() : return 0x0010
  """
-""" 
+
 #-------------------------------------------------------------------------------
 #	OSFolderFiles
 #-------------------------------------------------------------------------------
-def OSFolderList(a_path, a_attrib = 0xffffffff, a_attribAnd = True, a_retAttrib = False) :
-
+def OSFolderList(a_path, a_attrib = 0xffffffff, a_attribAnd = True, a_retAttrib = False):
+    return None
+""" 
     #---------------------------------------------------------------------------
     #-- load list of files and see if any were found
     #---------------------------------------------------------------------------
@@ -110,13 +105,14 @@ def OSFolderList(a_path, a_attrib = 0xffffffff, a_attribAnd = True, a_retAttrib 
                 l_retFiles.append(l_file[8])
 
     return l_retFiles
- """
-""" 
+"""
+
 #-------------------------------------------------------------------------------
 #	OSDeleteFiles
 #-------------------------------------------------------------------------------
-def OSDeleteFiles(a_path, a_opts = 0) :
-
+def OSDeleteFiles(a_path, a_opts = 0):
+    return 0
+""" 
     #---------------------------------------------------------------------------
     #-- determine attributes that will be used and base path
     #---------------------------------------------------------------------------
@@ -158,96 +154,9 @@ def OSDeleteFiles(a_path, a_opts = 0) :
 
     return 0
  """
-
 #-------------------------------------------------------------------------------
 #	OSMakeFolder
 #-------------------------------------------------------------------------------
-def OSMakeFolder(a_path) :
-    if not os.path.exists(a_path) :
-        os.makedirs(a_path, exist_ok = False)
-
-
-#-------------------------------------------------------------------------------
-#	FormatTime
-#
-#	This routine formats time from seconds
-#-------------------------------------------------------------------------------
-def FormatTime(a_time, a_dtfmt = '%Y%m%d%H%M%S') :
-    return time.strftime(a_dtfmt, time.localtime(a_time))
-
-
-#-------------------------------------------------------------------------------
-#	getTimeSeconds
-#
-#	This routine returns a tuple with current time split into secs and msec
-#-------------------------------------------------------------------------------
-def GetTimeSeconds() : return SplitTimeSeconds(time.time())
-
-
-#-------------------------------------------------------------------------------
-#	splitTimeSeconds
-#
-#	This routine returns a tuple from the passed in time split into secs and
-#   msec
-#-------------------------------------------------------------------------------
-def SplitTimeSeconds(a_time) :
-
-    l_time = 0
-    l_timeMsec = 0
-    
-    l_timeStr = str(a_time)
-    l_i = l_timeStr.find('.')
-    if l_i == -1 :
-        l_time = int(l_timeStr)
-    else :
-        l_time = int(l_timeStr[:l_i])
-        l_timeMsec = int(l_timeStr[l_i + 1:])
-
-    return (l_time, l_timeMsec)
-
-#-------------------------------------------------------------------------------
-#	isYesOrNo
-#
-#	This routine returns a_retTrue if a_val is (1, yes, on, true) else it
-#   returns a_retFalse
-#-------------------------------------------------------------------------------
-def IsYesOrNo(a_val, a_retTrue = True, a_retFalse = False):
-
-    l_val = a_val
-    if type(l_val).__name__ == 'str' : l_val.lower()
-
-    if l_val in [1, 'yes', 'y', 'on', 'true', 't'] :
-        return a_retTrue
-
-    return a_retFalse
-
-#def TestIsYesOrNo(a_val, a_retTrue = True, a_retFalse = False):
-#    l_ret = IsYesOrNo(a_val, a_retTrue, a_retFalse)
-#    print("IsYesOrNo(", a_val, ",", a_retTrue, ",", a_retFalse, ") = ", l_ret)
-#    return l_ret
-
-
-#-------------------------------------------------------------------------------
-#	createUpperCaseDictKeys
-#
-#	This routine returns a dictonary of uppcase keys based on a dictionary
-#-------------------------------------------------------------------------------
-def CreateUpperCaseDictKeys(a_dict) :
-    l_keys = {}
-    for l_key in list(a_dict.keys()) :
-        l_keys[l_key.upper()] = l_key
-
-    return l_keys    
-
-
-#-------------------------------------------------------------------------------
-#	DBCommaStringToInClause
-#
-#	This routine returns a dictonary of uppcase keys based on a dictionary
-#-------------------------------------------------------------------------------
-def DBCommaStringToInClause(a_str) :
-
-    l_str = "'" + a_str + "'"
-    l_str.replace(',', "','")
-    
-    return l_str
+#def OSMakeFolder(a_path) :
+#    if not os.path.exists(a_path) :
+#        os.makedirs(a_path, exist_ok = False)

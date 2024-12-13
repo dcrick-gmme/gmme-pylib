@@ -1,12 +1,30 @@
+#!/usr/bin/env python
+#===============================================================================
+# gmme-pylib for Python
+# Copyright (c) 2002 - 2024, GMM Enterprises, LLC.
+# Licensed under the GMM Software License
+# All rights reserved 
+#===============================================================================
+# Author: David Crickenberger
+# ------------------------------------------------------------------------------
+# Description:
+#   Debug program for Utils.Other
+#===============================================================================
 
 import os
 import gmmePylib.Utils.Other
 #from gmmePylib.Utils import Other
 
 
-o_isYesOrNo = True
+#-------------------------------------------------------------------------------
+#-- set what should be tested while debugging
+_o_test__ = {
+    'isYesOrNo': False,
+    'osDifferent': True,
+}
 
 
+#-------------------------------------------------------------------------------
 #-- get tests workspace folder path
 l_testsPath = os.environ.get("_TESTS_WORKSPACEFOLDER", "./tests")
 l_testsUtilsPath = l_testsPath + "/utils"
@@ -14,19 +32,33 @@ l_testsUtilsPath = l_testsPath + "/utils"
 print("testsPath = " + l_testsPath)
 print("testsUtilsPath = " + l_testsUtilsPath)
 
+
 #-------------------------------------------------------------------------------
 #-- IsYesOrNo
-if o_isYesOrNo:
-    def testIsYesOrNo(a_val, a_retTrue = True, a_retFalse = False):
+if _o_test__['isYesOrNo']:
+    def testIsYesOrNo__(a_val, a_retTrue = True, a_retFalse = False):
         l_ret = gmmePylib.Utils.Other.IsYesOrNo(a_val, a_retTrue, a_retFalse)
-        print("IsYesOrNo(", a_val, ",", a_retTrue, ",", a_retFalse, ") = ", l_ret)
+        print("   IsYesOrNo(", a_val, ",", a_retTrue, ",", a_retFalse, ") = ", l_ret)
 
-    testIsYesOrNo('yes')
-    testIsYesOrNo(0)
-    testIsYesOrNo(True)
-    testIsYesOrNo(False)
-    testIsYesOrNo('true')
-    testIsYesOrNo('t', 'x', 'y')
+    print("Testing - IsYesOrNo - Beg::")
+    testIsYesOrNo__('yes')
+    testIsYesOrNo__(0)
+    testIsYesOrNo__(True)
+    testIsYesOrNo__(False)
+    testIsYesOrNo__('true')
+    testIsYesOrNo__('t', 'x', 'y')
+    print("Testing - IsYesOrNo - Beg::")
+
+
+#-------------------------------------------------------------------------------
+#-- IsYesOrNo
+if _o_test__['osDifferent']:
+    print("Testing - OSDifferent - Beg::")
+    l_otherTestPath = l_testsUtilsPath + "/other"
+    
+    gmmePylib.Utils.Other.OSFolderList(l_otherTestPath + "/deletefiles/samplefiles")
+    #a_path, a_attrib = 0xffffffff, a_attribAnd = True, a_retAttrib = False):
+    print("Testing - OSDifferent - End::")
 
 
 '''
