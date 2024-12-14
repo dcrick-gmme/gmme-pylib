@@ -56,7 +56,7 @@ if _o_test__['osDifferent']:
     print("Testing - OSDifferent - Beg::")
     l_otherTestPath = l_testsUtilsPath + "/other"
     
-    l_files = gmmePylib.Utils.Other.OSFolderList(l_otherTestPath + "/deletefiles/samplefiles")
+    l_files = gmmePylib.Utils.Other.OSFolderList(l_otherTestPath + "/deletefiles/samplefiles/*")
     #a_path, a_attrib = 0xffffffff, a_attribAnd = True, a_retAttrib = False):
     print("Testing - OSDifferent - End::")
 

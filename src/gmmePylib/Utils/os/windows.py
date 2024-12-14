@@ -18,7 +18,6 @@ import os
 import platform
 import time
 
-#if platform.system() == "Windows":
 import win32api
 import win32con
 
@@ -76,31 +75,32 @@ def OSFolderList(a_path, a_attrib = 0xffffffff, a_attribAnd = True, a_retAttrib 
     #---------------------------------------------------------------------------
     l_retFiles = []
     for l_file in l_files:
+        if l_file[8] == '.' or l_file[8] == '..': continue
+
         #-- determine if we are going to keep
         l_ignore = True
-        if l_file[8] == '.' or l_file[8] == '..' : l_ignore = True
         l_fileAttrib = l_file[0]
-        if l_ignore and a_attribAnd :
-            if l_fileAttrib & a_attrib : l_ignore = False
-        else :
-            if l_ignore and (l_fileAttrib & l_attribREADONLY) : l_ignore = False
-            if l_ignore and (l_fileAttrib & l_attribHIDDEN) : l_ignore = False
-            if l_ignore and (l_fileAttrib & l_attribSYSTEM) : l_ignore = False
-            if l_ignore and (l_fileAttrib & l_attribDIRECTORY) : l_ignore = False
-            if l_ignore and (l_fileAttrib & l_attribARCHIVE) : l_ignore = False
-            if l_ignore and (l_fileAttrib & l_attribENCRYPTED) : l_ignore = False
-            if l_ignore and (l_fileAttrib & l_attribNORMAL) : l_ignore = False
-            if l_ignore and (l_fileAttrib & l_attribTEMPORARY) : l_ignore = False
-            if l_ignore and (l_fileAttrib & l_attribSPARSE_FILE) : l_ignore = False
-            if l_ignore and (l_fileAttrib & l_attribREPARSE_POINT) : l_ignore = False
-            if l_ignore and (l_fileAttrib & l_attribCOMPRESSED) : l_ignore = False
-            if l_ignore and (l_fileAttrib & l_attribOFFLINE) : l_ignore = False
-            if l_ignore and (l_fileAttrib & l_attribCONTENT_INDEXED) : l_ignore = False
+        if l_ignore and a_attribAnd:
+            if l_fileAttrib & a_attrib: l_ignore = False
+        else:
+            if l_ignore and (l_fileAttrib & l_attribREADONLY): l_ignore = False
+            if l_ignore and (l_fileAttrib & l_attribHIDDEN): l_ignore = False
+            if l_ignore and (l_fileAttrib & l_attribSYSTEM): l_ignore = False
+            if l_ignore and (l_fileAttrib & l_attribDIRECTORY): l_ignore = False
+            if l_ignore and (l_fileAttrib & l_attribARCHIVE): l_ignore = False
+            if l_ignore and (l_fileAttrib & l_attribENCRYPTED): l_ignore = False
+            if l_ignore and (l_fileAttrib & l_attribNORMAL): l_ignore = False
+            if l_ignore and (l_fileAttrib & l_attribTEMPORARY): l_ignore = False
+            if l_ignore and (l_fileAttrib & l_attribSPARSE_FILE): l_ignore = False
+            if l_ignore and (l_fileAttrib & l_attribREPARSE_POINT): l_ignore = False
+            if l_ignore and (l_fileAttrib & l_attribCOMPRESSED): l_ignore = False
+            if l_ignore and (l_fileAttrib & l_attribOFFLINE): l_ignore = False
+            if l_ignore and (l_fileAttrib & l_attribCONTENT_INDEXED): l_ignore = False
 
-        if not l_ignore :
-            if a_retAttrib :
+        if not l_ignore:
+            if a_retAttrib:
                 l_retFiles.append(l_file)
-            else :
+            else:
                 l_retFiles.append(l_file[8])
 
     return l_retFiles
