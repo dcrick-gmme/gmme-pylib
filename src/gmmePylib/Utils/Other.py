@@ -18,10 +18,11 @@ import os
 import platform
 import time
 
+#-- map os specific code into Other namespace
 if platform.system() == "Windows":
-    from .os_.windows import *
+    from .os.windows import *
 elif platform.system() == "Linux":
-    from .os_.linux import *
+    from .os.linux import *
 
 
 

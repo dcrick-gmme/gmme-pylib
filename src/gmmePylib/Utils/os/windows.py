@@ -40,22 +40,22 @@ def OSFolderList(a_path, a_attrib = 0xffffffff, a_attribAnd = True, a_retAttrib 
     #-- load list of files and see if any were found
     #---------------------------------------------------------------------------
     l_files = None
-    try :
+    try:
         l_files = win32api.FindFiles(a_path)
-    except Exception as ex_ :
+    except Exception as ex_:
         return None
 
-    if len(l_files) == 0 : return None
-    if len(l_files) == 2 :
+    if len(l_files) == 0: return None
+    if len(l_files) == 2:
         if (l_files[0][8] == '.' or l_files[0][8] == '..') \
-                and (l_files[1][8] == '.' or l_files[1][8] == '..') :
+                and (l_files[1][8] == '.' or l_files[1][8] == '..'):
             return None
 
 
     #---------------------------------------------------------------------------
-    #-- load list of files and see if any were found
+    #-- and windows attributes onto passed in attribute to add finer filtering
     #---------------------------------------------------------------------------
-    if not a_attribAnd :
+    if not a_attribAnd:
         l_attribREADONLY = a_attrib & win32con.FILE_ATTRIBUTE_READONLY
         l_attribHIDDEN = a_attrib & win32con.FILE_ATTRIBUTE_HIDDEN
         l_attribSYSTEM = a_attrib & win32con.FILE_ATTRIBUTE_SYSTEM
@@ -75,7 +75,7 @@ def OSFolderList(a_path, a_attrib = 0xffffffff, a_attribAnd = True, a_retAttrib 
     #-- filter the files
     #---------------------------------------------------------------------------
     l_retFiles = []
-    for l_file in l_files :
+    for l_file in l_files:
         #-- determine if we are going to keep
         l_ignore = True
         if l_file[8] == '.' or l_file[8] == '..' : l_ignore = True

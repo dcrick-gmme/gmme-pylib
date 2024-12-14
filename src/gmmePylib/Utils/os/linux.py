@@ -35,22 +35,73 @@ import time
 #	OSFolderFiles
 #-------------------------------------------------------------------------------
 def OSFolderList(a_path, a_attrib = 0xffffffff, a_attribAnd = True, a_retAttrib = False):
-    return None
-""" 
     #---------------------------------------------------------------------------
     #-- load list of files and see if any were found
     #---------------------------------------------------------------------------
     l_files = None
-    try :
-        l_files = win32api.FindFiles(a_path)
-    except Exception as ex_ :
+    try:
+        l_files = os.listdir(a_path)
+    except Exception as ex:
         return None
 
-    if len(l_files) == 0 : return None
-    if len(l_files) == 2 :
-        if (l_files[0][8] == '.' or l_files[0][8] == '..') \
-                and (l_files[1][8] == '.' or l_files[1][8] == '..') :
-            return None
+    if len(l_files) == 0: return None
+
+    return l_files
+
+
+    #---------------------------------------------------------------------------
+    #-- filter the files
+    #---------------------------------------------------------------------------
+    # l_retFiles = []
+    # for l_file in l_files:
+    #     #-- determine if we are going to keep
+    #     l_ignore = True
+    #     l_state = os.stat(a_path + "/" + l_file)
+    #     print("we are here")
+#        if l_file[8] == '.' or l_file[8] == '..': l_ignore = True
+        # l_fileAttrib = l_file[0]
+        # if l_ignore and a_attribAnd :
+        #     if l_fileAttrib & a_attrib : l_ignore = False
+        # else :
+        #     if l_ignore and (l_fileAttrib & l_attribREADONLY) : l_ignore = False
+        #     if l_ignore and (l_fileAttrib & l_attribHIDDEN) : l_ignore = False
+        #     if l_ignore and (l_fileAttrib & l_attribSYSTEM) : l_ignore = False
+        #     if l_ignore and (l_fileAttrib & l_attribDIRECTORY) : l_ignore = False
+        #     if l_ignore and (l_fileAttrib & l_attribARCHIVE) : l_ignore = False
+        #     if l_ignore and (l_fileAttrib & l_attribENCRYPTED) : l_ignore = False
+        #     if l_ignore and (l_fileAttrib & l_attribNORMAL) : l_ignore = False
+        #     if l_ignore and (l_fileAttrib & l_attribTEMPORARY) : l_ignore = False
+        #     if l_ignore and (l_fileAttrib & l_attribSPARSE_FILE) : l_ignore = False
+        #     if l_ignore and (l_fileAttrib & l_attribREPARSE_POINT) : l_ignore = False
+        #     if l_ignore and (l_fileAttrib & l_attribCOMPRESSED) : l_ignore = False
+        #     if l_ignore and (l_fileAttrib & l_attribOFFLINE) : l_ignore = False
+        #     if l_ignore and (l_fileAttrib & l_attribCONTENT_INDEXED) : l_ignore = False
+
+        # if not l_ignore :
+        #     if a_retAttrib :
+        #         l_retFiles.append(l_file)
+        #     else :
+        #         l_retFiles.append(l_file[8])
+
+
+#    return None
+
+
+""" 
+    # #---------------------------------------------------------------------------
+    # #-- load list of files and see if any were found
+    # #---------------------------------------------------------------------------
+    # l_files = None
+    # try :
+    #     l_files = win32api.FindFiles(a_path)
+    # except Exception as ex_ :
+    #     return None
+
+    # if len(l_files) == 0 : return None
+    # if len(l_files) == 2 :
+    #     if (l_files[0][8] == '.' or l_files[0][8] == '..') \
+    #             and (l_files[1][8] == '.' or l_files[1][8] == '..') :
+    #         return None
 
 
     #---------------------------------------------------------------------------
