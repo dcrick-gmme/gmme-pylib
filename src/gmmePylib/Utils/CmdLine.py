@@ -87,9 +87,7 @@ class CmdLine() :
         if isinstance(a_argv, str):
             self.AddArgsLine(a_argv)
         elif isinstance(a_argv, list):
-            if len(a_argv) == 1:
-                self.AddArgsLine(a_argv[0])
-            else:
+            if len(a_argv) > 0:
                 self.AddArgsArray(a_argv)
         else:
             raise CmdLineException("'file' not initialized")
