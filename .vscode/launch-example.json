@@ -2,22 +2,36 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "CmdLine-test-args",
-            "type": "python",
+            "name": "Debug-Utils-module",
+            "type": "debugpy",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "justMyCode": true,
-            "args": ["@./test-gmme-pylib/opt/custperf.opt"]
+            "justMyCode": false,
+            "env": {
+                "_TESTS_WORKSPACEFOLDER": "${workspaceFolder}/tests",
+                "CMDLINE_TESTS_OPTPATH": "${workspaceFolder}/tests/opt",
+                "CMDLINE_TESTS_OPTFILE": "${workspaceFolder}/tests/opt/custperf.opt",
+                "LOGGER_TESTS_PATH": "${workspaceFolder}/tests/logs",
+                "OBJECT_TESTS_OPTFILE": "${workspaceFolder}/tests/opt/custperf.opt",
+            },
         },
         {
-            "name": "CmdLine-test-env",
-            "type": "python",
+            "name": "Debug-Utils-CmdLine",
+            "type": "debugpy",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "justMyCode": true,
-            "env": {"CMDLINE_TESTOPTFILE": "./Utils/CmdLineTest/custperf.opt"}
-        }
+            "justMyCode": false,
+            "args": ["-test1 test1 -test2 -test3 abcd"],
+            "env": {
+                "_TESTS_WORKSPACEFOLDER": "${workspaceFolder}/tests",
+                "CMDLINE_TESTS_OPTPATH": "${workspaceFolder}/tests/opt",
+                "CMDLINE_TESTS_OPTFILE": "${workspaceFolder}/tests/opt/custperf.opt",
+                "CMDLINE_TESTS_OPTFILE_BAD": "${workspaceFolder}/tests/opt/custperfx.opt",
+                "LOGGER_TESTS_PATH": "${workspaceFolder}/tests/logs",
+                "OBJECT_TESTS_OPTFILE": "${workspaceFolder}/tests/opt/custperf.opt",
+            },
+        },
     ]
 }

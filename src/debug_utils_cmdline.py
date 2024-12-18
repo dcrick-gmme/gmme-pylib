@@ -14,35 +14,73 @@
 import os
 import sys
 
-import gmmePylib.Utils.CmdLine
+from gmmePylib import *
 
 
 #-------------------------------------------------------------------------------
-#-- get tests opt and output
-l_optfile = os.environ.get("CMDLINE_TESTS_OPTFILE", "./custperf.opt")
+#-- initialize debug settings
+o_dbgTests__ = {
+    'test01': False,
+    'test02': True,
+}
 
-print("optfile = " + l_optfile)
+o_dbgfile__ = os.path.basename(__file__)
 
-#---------------------------------------------------------------------------
-#-- output python version
-print("DBG-Utils.CmdLine - beg:")
-print("DBG-Utils.CmdLine - python version = " + sys.version)
-                                  
-#---------------------------------------------------------------------------
-#-- initialize CmdLine Object and pull info from command line for a fixed
-#-- file
-l_cwd = os.getcwd()
 
-l_cmdline = gmmePylib.Utils.CmdLine.Create(True)
-if len(sys.argv) == 1:
-    #-- pass .opt file to process from env or default
+#-------------------------------------------------------------------------------
+#-- test01: see how we process command lines with an array and a string
+def test01_():
+    l_dbgfunc = o_dbgfile__ + " :: test01"
+    print(l_dbgfunc + " -- beg:")
+
+    l_cmdline = Utils.CmdLine.Create(True)
+    l_cmdline.AddArgs(sys.argv[1:])
+    l_cmdline.AddArgs("-this is -another test -tosee -what")
+    l_cmdline.Dump()
+
+    print(l_dbgfunc + " -- end:")
+
+
+#-------------------------------------------------------------------------------
+#-- test02: see how we process command lines starting with env variable
+#--         containing opt file and a bad name opt file
+def test02_():
+    l_dbgfunc = o_dbgfile__ + " :: test01"
+    print(l_dbgfunc + " -- beg:")
+
+    #---------------------------------------------------------------------------
+    #-- test good filename
+    print(l_dbgfunc + " -- good file -- beg:")
+    l_optfile = os.environ.get("CMDLINE_TESTS_OPTFILE", "./custperf.opt")
+    print("optfile = " + l_optfile)
+    l_cmdline = Utils.CmdLine.Create(True)
     l_cmdline.AddArgsFile(l_optfile)
-else:
-    #-- pass in what is ever on the command line
-    l_cmdline.AddArgsArray(sys.argv[1:])
+    print(l_dbgfunc + " -- good file -- end:")
+
+    #---------------------------------------------------------------------------
+    #-- test bad filename
+    print(l_dbgfunc + " -- good bad -- beg:")
+    l_optfileBad = os.environ.get("CMDLINE_TESTS_OPTFILE_BAD", "./custperfx.opt")
+    l_cmdline = Utils.CmdLine.Create(True)
+    l_cmdline.AddArgsFile(l_optfileBad)
+    print(l_dbgfunc + " -- good bad -- end:")
+
+
+#-------------------------------------------------------------------------------
+#-- main processing of debug tests
+print(o_dbgfile__ + " - beg:")
+print(o_dbgfile__ + " :: python version = " + sys.version)
+print(o_dbgfile__ + " :: source = " + __file__)
+
+if o_dbgTests__['test01']: test01_()
+if o_dbgTests__['test02']: test02_()
+
+print(o_dbgfile__ + " - end:")
+
 
 #---------------------------------------------------------------------------
 #-- test what was loaded from given .opt
+"""
 l_rc = l_cmdline.IsOpt('-rptExt')
 l_rc = l_cmdline.IsOpt('-rptName')
 l_rc = l_cmdline.IsOpt('-xrptName')
@@ -54,5 +92,6 @@ l_rc4 = l_cmdline.GetOptCombinedValue('-sfxTmpC', a_sep = os.path.sep)
 
 l_rc = l_cmdline.GetPathOpt('-sfxTmp3')
 l_rc = False
+"""
 
-print("DBG-Utils.CmdLine - end:")
+#print("DBG-Utils.CmdLine - end:")
