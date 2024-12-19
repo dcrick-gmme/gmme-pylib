@@ -14,6 +14,8 @@
 # Description:
 #   General other stuff
 #===============================================================================
+
+import json
 import os
 import platform
 import time
@@ -162,17 +164,25 @@ def OSDeleteFiles(a_path, a_opts = 0) :
 #-------------------------------------------------------------------------------
 #	OSMakeFolder
 #-------------------------------------------------------------------------------
-def OSMakeFolder(a_path) :
-    if not os.path.exists(a_path) :
+def OSMakeFolder(a_path):
+    if not os.path.exists(a_path):
         os.makedirs(a_path, exist_ok = False)
 
+#-------------------------------------------------------------------------------
+#	OSLoadJson
+#-------------------------------------------------------------------------------
+def OSLoadJson(a_file):
+    l_json = None
+    with open(a_file, 'r', encoding="utf8") as l_file:
+        l_json = json.load(l_file)
+    return l_json
 
 #-------------------------------------------------------------------------------
 #	FormatTime
 #
 #	This routine formats time from seconds
 #-------------------------------------------------------------------------------
-def FormatTime(a_time, a_dtfmt = '%Y%m%d%H%M%S') :
+def FormatTime(a_time, a_dtfmt = '%Y%m%d%H%M%S'):
     return time.strftime(a_dtfmt, time.localtime(a_time))
 
 
@@ -181,7 +191,7 @@ def FormatTime(a_time, a_dtfmt = '%Y%m%d%H%M%S') :
 #
 #	This routine returns a tuple with current time split into secs and msec
 #-------------------------------------------------------------------------------
-def GetTimeSeconds() : return SplitTimeSeconds(time.time())
+def GetTimeSeconds(): return SplitTimeSeconds(time.time())
 
 
 #-------------------------------------------------------------------------------
@@ -190,16 +200,16 @@ def GetTimeSeconds() : return SplitTimeSeconds(time.time())
 #	This routine returns a tuple from the passed in time split into secs and
 #   msec
 #-------------------------------------------------------------------------------
-def SplitTimeSeconds(a_time) :
+def SplitTimeSeconds(a_time):
 
     l_time = 0
     l_timeMsec = 0
     
     l_timeStr = str(a_time)
     l_i = l_timeStr.find('.')
-    if l_i == -1 :
+    if l_i == -1:
         l_time = int(l_timeStr)
-    else :
+    else:
         l_time = int(l_timeStr[:l_i])
         l_timeMsec = int(l_timeStr[l_i + 1:])
 
@@ -214,9 +224,9 @@ def SplitTimeSeconds(a_time) :
 def IsYesOrNo(a_val, a_retTrue = True, a_retFalse = False):
 
     l_val = a_val
-    if type(l_val).__name__ == 'str' : l_val.lower()
+    if type(l_val).__name__ == 'str': l_val.lower()
 
-    if l_val in [1, 'yes', 'y', 'on', 'true', 't'] :
+    if l_val in [1, 'yes', 'y', 'on', 'true', 't']:
         return a_retTrue
 
     return a_retFalse
@@ -232,9 +242,9 @@ def IsYesOrNo(a_val, a_retTrue = True, a_retFalse = False):
 #
 #	This routine returns a dictonary of uppcase keys based on a dictionary
 #-------------------------------------------------------------------------------
-def CreateUpperCaseDictKeys(a_dict) :
+def CreateUpperCaseDictKeys(a_dict):
     l_keys = {}
-    for l_key in list(a_dict.keys()) :
+    for l_key in list(a_dict.keys()):
         l_keys[l_key.upper()] = l_key
 
     return l_keys    
