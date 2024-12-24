@@ -21,6 +21,7 @@ import re
 import random
 import sys
 
+
 #-------------------------------------------------------------------------------
 #-- Simulate Constants
 #-------------------------------------------------------------------------------
@@ -36,7 +37,7 @@ def ISOPT_SETOFF(): return 6
 #-------------------------------------------------------------------------------
 #-- static functions
 #-------------------------------------------------------------------------------
-def dumpAddArgsParameters(a_dbgfunc, a_argv):
+def _s_dumpAddArgsParameters(a_dbgfunc:str, a_argv):
     print(a_dbgfunc + " -- beg:")
     print(a_dbgfunc + " :: cwd => " + os.getcwd())
     print(a_dbgfunc + " :: type(a_argv) => " + str(type(a_argv)))
@@ -45,13 +46,15 @@ def dumpAddArgsParameters(a_dbgfunc, a_argv):
     print(a_dbgfunc + " :: a_argv -- end:")
     print(a_dbgfunc + " -- end:")
 
+
 #-------------------------------------------------------------------------------
 #-- Class CmdLineException
 #-------------------------------------------------------------------------------
 class CmdLineException():
+    _m_msg:str = None
 
-    def __init__(self, a_msg):
-        self.m_msg = a_msg
+    def __init__(self, a_msg:str):
+        self._m_msg = a_msg
 
 
 #-------------------------------------------------------------------------------
@@ -61,26 +64,26 @@ class CmdLine():
     #---------------------------------------------------------------------------
     #-- Members
     #---------------------------------------------------------------------------
-    m_dbgOn = False
-    m_isInit = False
-    m_opts = {}
+    _m_dbgOn:bool = False
+    _m_isInit:bool = False
+    _m_opts = {}
 
 
     #---------------------------------------------------------------------------
     #-- ctor
     #---------------------------------------------------------------------------
-    def __init__(self, a_dbgOn = False):
-        self.m_isInit = True
-        self.m_dbgOn = a_dbgOn
+    def __init__(self, a_dbgOn:bool = False):
+        self._m_isInit = True
+        self._m_dbgOn = a_dbgOn
 
 
     #---------------------------------------------------------------------------
     #-- AddArgs
     #---------------------------------------------------------------------------
-    def AddArgs(self, a_argv):
+    def AddArgs(self, a_argv:any):
 
         l_dbgfunc = "DBG-Utils.CmdLine.AddArgs"
-        if self.m_dbgOn: dumpAddArgsParameters(l_dbgfunc, a_argv)
+        if self._m_dbgOn: _s_dumpAddArgsParameters(l_dbgfunc, a_argv)
 
         #-----------------------------------------------------------------------
         #-- call correct AddXXXX method
@@ -90,16 +93,16 @@ class CmdLine():
             if len(a_argv) > 0:
                 self.AddArgsArray(a_argv)
         else:
-            raise CmdLineException("'file' not initialized")
+            raise CmdLineException("'a_argv' type not supported")
 
 
     #---------------------------------------------------------------------------
     #-- AddArgsArray
     #---------------------------------------------------------------------------
-    def AddArgsArray(self, a_argv):
+    def AddArgsArray(self, a_argv:list):
 
         l_dbgfunc = "DBG-Utils.CmdLine.AddArgsArray"
-        if self.m_dbgOn: dumpAddArgsParameters(l_dbgfunc, a_argv)
+        if self._m_dbgOn: _s_dumpAddArgsParameters(l_dbgfunc, a_argv)
 
         #-----------------------------------------------------------------------
         #-- process
@@ -122,16 +125,16 @@ class CmdLine():
 
                 #---------------------------------------------------------------
                 #-- add item to list
-                l_opt, l_tags = self.checkOptForTags_(l_opt.upper())
-                self.m_opts[l_opt] = {"val": self.subEnv_(l_val), "tags": l_tags}
+                l_opt, l_tags = self._checkOptForTags(l_opt.upper())
+                self._m_opts[l_opt] = {"val": self._subEnv(l_val), "tags": l_tags}
             elif (l_arg[0] == '@') :
-                self.AddArgsFile(self.subEnv_(l_arg[1:], True))
+                self.AddArgsFile(self._subEnv(l_arg[1:], True))
 
             l_i = l_i + 1
 
-        self.m_isInit = 1
+        self._m_isInit = 1
 
-    def checkOptForTags_(self, a_opt):
+    def _checkOptForTags(self, a_opt:str):
         l_opt = a_opt
         l_tags = []
         l_split = re.split("(^.*)(\\#\\{(.*)\\}$)", a_opt)
@@ -147,29 +150,28 @@ class CmdLine():
     #---------------------------------------------------------------------------
     #-- AddArgsFile
     #---------------------------------------------------------------------------
-    def AddArgsFile(self, a_file):
+    def AddArgsFile(self, a_file:str):
 
         l_dbgfunc = "DBG-Utils.CmdLine.AddArgsFile"
 
         #-----------------------------------------------------------------------
         #-- dbg stuff
-        if self.m_dbgOn:
+        if self._m_dbgOn:
             print(l_dbgfunc + " :: cwd => " + os.getcwd())
             print(l_dbgfunc + " :: a_file => " + a_file)
 
         #-----------------------------------------------------------------------
         #-- make sure file exists
         if not os.path.exists(a_file):
-            if self.m_dbgOn: print(l_dbgfunc + "::ERROR !!! FILE DOES NOT EXISTS !!!")
+            if self._m_dbgOn: print(l_dbgfunc + " :: ERROR !!! FILE DOES NOT EXISTS !!!")
             raise FileNotFoundError(errno.ENOENT,
                                     os.strerror(errno.ENOENT),
                                     "OPT file could not be found: " + a_file + " [cwd = " + os.getcwd() + "]")
 
-
         #-----------------------------------------------------------------------
         #-- open file and process
         l_file = os.path.expanduser(a_file)
-        if self.m_dbgOn: print(l_dbgfunc + " :: opening file => " + l_file)
+        if self._m_dbgOn: print(l_dbgfunc + " :: opening file => " + l_file)
 
         with open(l_file) as l_optfile:
             for l_line in l_optfile:
@@ -185,9 +187,9 @@ class CmdLine():
     
                     if not l_lineComment: self.AddArgsLine(l_line)
 
-        self.m_isInit = True
+        self._m_isInit = True
 
-        if self.m_dbgOn:
+        if self._m_dbgOn:
             print(l_dbgfunc + " :: opening file == dump - beg:")
             self.Dump()
             print(l_dbgfunc + " :: opening file == dump - end:")
@@ -196,10 +198,10 @@ class CmdLine():
     #---------------------------------------------------------------------------
     #-- AddArgsLine
     #---------------------------------------------------------------------------
-    def AddArgsLine(self, a_line):
+    def AddArgsLine(self, a_line:str):
 
         l_dbgfunc = "DBG-Utils.CmdLine.AddArgsLine"
-        if self.m_dbgOn: print(l_dbgfunc + ":: line = " + a_line)
+        if self._m_dbgOn: print(l_dbgfunc + ":: line = " + a_line)
 
         #-----------------------------------------------------------------------
         #-- process
@@ -237,17 +239,17 @@ class CmdLine():
 
         l_dbgfunc = "DBG-Utils.CmdLine.Dump"
 
-        if not self.m_isInit:
+        if not self._m_isInit:
             print(l_dbgfunc + ":: nothing exists...")
             return
         
         #-----------------------------------------------------------------------
         #-- dump contents
         print(l_dbgfunc + " -- beg:")
-        l_opts = list(self.m_opts.keys())
+        l_opts = list(self._m_opts.keys())
         l_opts.sort()
         for l_opt in l_opts:
-            l_val, l_tags = (self.m_opts[l_opt]['val'], self.m_opts[l_opt]['tags'])
+            l_val, l_tags = (self._m_opts[l_opt]['val'], self._m_opts[l_opt]['tags'])
             if l_val is None:           l_val = '<none>'
             elif l_val == '':           l_val = '<empty string>'
             else:
@@ -259,9 +261,9 @@ class CmdLine():
     #---------------------------------------------------------------------------
     #-- GetOptCombinedValue
     #---------------------------------------------------------------------------
-    def GetOptCombinedValue(self, a_opt, a_sep = os.path.sep, a_def = None):
+    def GetOptCombinedValue(self, a_opt:str, a_sep:str = os.path.sep, a_def:any = None):
 
-        if not self.m_isInit: return None
+        if not self._m_isInit: return None
 
         #-----------------------------------------------------------------------
         #-- see if option value exists
@@ -283,9 +285,9 @@ class CmdLine():
     #---------------------------------------------------------------------------
     #-- GetDBLogon
     #---------------------------------------------------------------------------
-    def GetDBLogon(self, a_opt):
+    def GetDBLogon(self, a_opt:str):
 
-        if not self.m_isInit: return None
+        if not self._m_isInit: return None
 
         #-----------------------------------------------------------------------
         #-- see if option value exists
@@ -345,16 +347,16 @@ class CmdLine():
     #---------------------------------------------------------------------------
     #-- GgetOptValue
     #---------------------------------------------------------------------------
-    def GetOptValue(self, a_opt, a_def = None):
+    def GetOptValue(self, a_opt:str, a_def:str = None):
 
-        if not self.m_isInit: return None
+        if not self._m_isInit: return None
 
         #-----------------------------------------------------------------------
         #-- convert to uppercase and see it it exists
         l_val = None
 
         l_opt = a_opt.upper()
-        if l_opt in self.m_opts: l_val = self.m_opts[l_opt]['val']
+        if l_opt in self._m_opts: l_val = self._m_opts[l_opt]['val']
 
         if l_val is not None:
             if l_val != '': return l_val
@@ -369,9 +371,9 @@ class CmdLine():
     #---------------------------------------------------------------------------
     #-- getPathOpt
     #---------------------------------------------------------------------------
-    def GetPathOpt(self, a_opt, a_defValue = None, a_allowSub = None, a_subValue = None):
+    def GetPathOpt(self, a_opt:str, a_defValue:str = None, a_allowSub:bool = None, a_subValue:str = None):
 
-        if not self.m_isInit: return None
+        if not self._m_isInit: return None
 
         #-----------------------------------------------------------------------
         #-- see if value exists
@@ -406,19 +408,19 @@ class CmdLine():
     #---------------------------------------------------------------------------
     #-- isOpt
     #---------------------------------------------------------------------------
-    def IsOpt(self, a_opt):
+    def IsOpt(self, a_opt:str):
 
-        if not self.m_isInit: return None
+        if not self._m_isInit: return None
 
-        if a_opt.upper() not in self.m_opts:
+        if a_opt.upper() not in self._m_opts:
             return False
         return True
 
 
     #---------------------------------------------------------------------------
-    #-- subEnv_
+    #-- _subEnv
     #---------------------------------------------------------------------------
-    def subEnv_(self, a_str, a_isPath = False):
+    def _subEnv(self, a_str:str, a_isPath:bool = False):
         #-----------------------------------------------------------------------
         #-- see if anything to check
         if a_str is None: return None
@@ -501,7 +503,7 @@ class CmdLine():
 #-------------------------------------------------------------------------------
 #-- Create wrapper functions
 #-------------------------------------------------------------------------------
-def Create(a_dbgOn = False):
+def Create(a_dbgOn:bool = False):
     return CmdLine(a_dbgOn)
 
 def CreateDbgOn():

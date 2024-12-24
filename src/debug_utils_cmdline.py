@@ -20,7 +20,7 @@ from gmmePylib import *
 #-------------------------------------------------------------------------------
 #-- initialize debug settings
 o_dbgTests__ = {
-    'test01': False,
+    'test01': True,
     'test02': True,
 }
 
@@ -61,8 +61,13 @@ def test02_():
     #-- test bad filename
     print(l_dbgfunc + " -- good bad -- beg:")
     l_optfileBad = os.environ.get("CMDLINE_TESTS_OPTFILE_BAD", "./custperfx.opt")
-    l_cmdline = Utils.CmdLine.Create(True)
-    l_cmdline.AddArgsFile(l_optfileBad)
+    l_cmdline = None
+    try:
+        l_cmdline = Utils.CmdLine.Create(True)
+        l_cmdline.AddArgsFile(l_optfileBad)
+    except Exception as ex_:
+#        continue
+        return None
     print(l_dbgfunc + " -- good bad -- end:")
 
 

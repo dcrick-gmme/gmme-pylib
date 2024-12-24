@@ -177,6 +177,7 @@ def OSLoadJson(a_file):
         l_json = json.load(l_file)
     return l_json
 
+
 #-------------------------------------------------------------------------------
 #	FormatTime
 #
@@ -230,11 +231,6 @@ def IsYesOrNo(a_val, a_retTrue = True, a_retFalse = False):
         return a_retTrue
 
     return a_retFalse
-
-#def TestIsYesOrNo(a_val, a_retTrue = True, a_retFalse = False):
-#    l_ret = IsYesOrNo(a_val, a_retTrue, a_retFalse)
-#    print("IsYesOrNo(", a_val, ",", a_retTrue, ",", a_retFalse, ") = ", l_ret)
-#    return l_ret
 
 
 #-------------------------------------------------------------------------------
