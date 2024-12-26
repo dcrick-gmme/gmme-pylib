@@ -14,8 +14,9 @@
 #	Command line processor module.
 #===============================================================================
 
-import gmmePylib.Utils.CmdLine
-import gmmePylib.Utils.Other
+import gmmePylib.Utils
+#.CmdLine
+#import gmmePylib.Utils.Other
 
 #-- import modules need for mail
 import smtplib
@@ -215,5 +216,5 @@ def doSubstitute_(a_str, a_substitute) :
 #-------------------------------------------------------------------------------
 #-- Create wrapper functions
 #-------------------------------------------------------------------------------
-def Create(a_app, a_base) :
+def Create(a_app:str, a_base:str):
     return Mail(a_app, a_base)

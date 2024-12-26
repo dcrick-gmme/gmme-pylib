@@ -25,13 +25,13 @@ import sys
 #-------------------------------------------------------------------------------
 #-- Simulate Constants
 #-------------------------------------------------------------------------------
-def GETDBLOGON(): return 1
-def GETOPTVALUE(): return 2
-def GETOPTVALUEDEF(): return 3
-def GETPATHOPT(): return 4
-def ISOPT(): return 5
-def ISOPT_SETON(): return 5
-def ISOPT_SETOFF(): return 6
+def GETDBLOGON():       return 1
+def GETOPTVALUE():      return 2
+def GETOPTVALUEDEF():   return 3
+def GETPATHOPT():       return 4
+def ISOPT():            return 5
+def ISOPT_SETON():      return 5
+def ISOPT_SETOFF():     return 6
 
 
 #-------------------------------------------------------------------------------
@@ -391,7 +391,6 @@ class CmdLine():
                         if l_i > 0 : l_str = l_str2[0:l_i-1]
                         l_str = l_str + a_subValue
                         l_str = l_str + l_str2[l_i:]
-
 
         #-----------------------------------------------------------------------
         #-- make sure their is '\' on end of string

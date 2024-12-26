@@ -36,18 +36,25 @@ import re
 import sys
 import time
 
-import Utils.CEC
-import Utils.CmdLine
+from gmmePylib import *
+#import gmmePylib.Utils.CEC
+#import Utils.CmdLine
 # import Utils.Mail
-import Utils.Object
-import Utils.Other
+#import Utils.Object
+#import Utils.Other
 
-from Utils.Logger import *
+#from Utils.Logger import *
 
 
 #-------------------------------------------------------------------------------
 #-- globals
 #-------------------------------------------------------------------------------
+_gbatchapp_ = None
+_gbatchapp_cmdline_ = None
+_gbatchapp_dbgLevel = 0
+_gbatchapp_env = ''
+_gbatchapp_log = None
+
 g_app = None
 g_appCmdline = None
 g_appDbgLevel = 0

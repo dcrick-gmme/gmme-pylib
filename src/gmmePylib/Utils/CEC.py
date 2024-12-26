@@ -67,7 +67,7 @@ def UHException():          return 200
 #-------------------------------------------------------------------------------
 #--- create dict of error codes to strings
 #-------------------------------------------------------------------------------
-g_errCodeToStr = {
+_cecErrCodeToStr__ = {
     CmdLine():              'CmdLine',
     CmdLineMissingItem():   'CmdLineMissingItem',
 
@@ -113,9 +113,9 @@ g_errCodeToStr = {
 #-- Return string for given error code, giving option to override the
 #-- the description
 #-------------------------------------------------------------------------------
-def ErrCodeToStr(a_code:int, a_desc:str = None) :
-    if a_code in g_errCodeToStr:
-        if a_desc is not None :
+def ErrCodeToStr(a_code:int, a_desc:str = None):
+    if a_code in _cecErrCodeToStr__:
+        if a_desc is not None:
             return a_desc
-        return g_errCodeToStr[a_code]
+        return _cecErrCodeToStr__[a_code]
     return None
