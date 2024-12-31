@@ -11,10 +11,11 @@
 #   Debug program for Utils.CmdLine
 #===============================================================================
 
+from pathlib import Path
+from gmmePylib import *
+
 import os
 import sys
-
-from gmmePylib import *
 
 
 #-------------------------------------------------------------------------------
@@ -24,7 +25,7 @@ o_dbgTests__ = {
     'test02': True,
 }
 
-o_dbgfile__ = os.path.basename(__file__)
+o_dbgfile__ = Path(__file__).name
 
 
 #-------------------------------------------------------------------------------
@@ -45,7 +46,7 @@ def test01_():
 #-- test02: see how we process command lines starting with env variable
 #--         containing opt file and a bad name opt file
 def test02_():
-    l_dbgfunc = o_dbgfile__ + " :: test01"
+    l_dbgfunc = o_dbgfile__ + " :: test02"
     print(l_dbgfunc + " -- beg:")
 
     #---------------------------------------------------------------------------
@@ -53,6 +54,7 @@ def test02_():
     print(l_dbgfunc + " -- good file -- beg:")
     l_optfile = os.environ.get("CMDLINE_TESTS_OPTFILE", "./custperf.opt")
     print("optfile = " + l_optfile)
+
     l_cmdline = Utils.CmdLine.Create(True)
     l_cmdline.AddArgsFile(l_optfile)
     print(l_dbgfunc + " -- good file -- end:")
@@ -66,7 +68,6 @@ def test02_():
         l_cmdline = Utils.CmdLine.Create(True)
         l_cmdline.AddArgsFile(l_optfileBad)
     except Exception as ex_:
-#        continue
         return None
     print(l_dbgfunc + " -- good bad -- end:")
 
@@ -78,6 +79,7 @@ def test02_():
 print(o_dbgfile__ + " - beg:")
 print(o_dbgfile__ + " :: python version = " + sys.version)
 print(o_dbgfile__ + " :: source = " + __file__)
+
 
 #-------------------------------------------------------------------------------
 #-- process tests

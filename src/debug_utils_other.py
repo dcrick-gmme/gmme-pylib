@@ -15,6 +15,7 @@ import os
 import sys
 
 from gmmePylib import *
+from pathlib import Path
 
 
 #-------------------------------------------------------------------------------
@@ -23,58 +24,97 @@ o_dbgTests__ = {
     'test01': False,
     'test02': True,
     'test03': False,
+    'test04': False,
 }
 
-o_dbgfile__ = os.path.basename(__file__)
+o_dbgfile__ = str(Path(__file__).name)
 
 
 #-------------------------------------------------------------------------------
-#-- test01: test the IsYesOrNo
+#-------------------------------------------------------------------------------
+#-- test01: test IsBool
 def test01_():
     l_dbgfunc = o_dbgfile__ + " :: test01"
     print(l_dbgfunc + " -- beg:")
 
-    #--------------------------------------------------------------------------
+    #---------------------------------------------------------------------------
     #-- define test cases
     l_tests = [
-        {'check': 'yes'},
-        {'check': 0, 'true': False},
-        {'check': True},
-        {'check': False},
-        {'check': 'true'},
-        {'check': 't', 'true': 'x', 'false': 'y'},
+        ['str: yes', 'yes'],
+        ['int: 0', 0],
+        ['int: 5', 5],
+        ['str: t', 't'],
+        ['str: False', 'False'],
+        ['str: x', 'x'],
+        ['bool: True', True],
+        ['bool: False', False],
+        ['list: []', []],
     ]
 
-    #--------------------------------------------------------------------------
+    #---------------------------------------------------------------------------
     #-- process tests
     for l_test in l_tests:
-        #-----------------------------------------------------------------------
-        #-- determine calling parameters
-        l_check = l_test['check']
-        l_true = True
-        l_false = False
-        l_dbgmsg = "   Utils.Other.IsYesOrNo({}"
-        if len(l_test) > 1:
-            l_true = l_test['true']
-            l_dbgmsg = l_dbgmsg + ", {}"
-            if len(l_test) > 2:
-                l_false = l_test['false']
-                l_dbgmsg = l_dbgmsg + ", {}"
-        l_dbgmsg = l_dbgmsg + ")"
-
-        #-----------------------------------------------------------------------
-        #-- test and output result
-        l_ret = Utils.Other.IsYesOrNo(l_check, l_true, l_false)
-        l_dbgmsg = l_dbgmsg + " = {}" 
-        print(l_dbgfunc + l_dbgmsg.format(l_check, l_true, l_false, l_ret))
+        print(l_dbgfunc + "   Utils.Other.IsBool(" + l_test[0] + ") = " + str(Utils.Other.IsBool(l_test[1])))
 
     print(l_dbgfunc + " -- end:")
 
 
 #-------------------------------------------------------------------------------
-#-- test02: test loading json files
+#-------------------------------------------------------------------------------
+#-- test02: test the IsYesOrNo/IsTrueOrFalse
 def test02_():
     l_dbgfunc = o_dbgfile__ + " :: test02"
+    print(l_dbgfunc + " -- beg:")
+
+    #---------------------------------------------------------------------------
+    #-- define test cases
+    l_tests = [
+        {'call': 'oo', 'msg': 'bool: False', 'args': [False]},
+        {'call': 'tf', 'msg': 'bool: True', 'args': [True]},
+        {'call': 'tf', 'msg': 'str: T, str: istrue', 'args': ['T', 'istrue']},
+        {'call': 'tf', 'msg': 'str: T, str: False, str: True', 'args': ['T', 'False', 'True']},
+        {'call': 'yn', 'msg': 'bool: True', 'args': [True]},
+        {'call': 'yn', 'msg': 'str: Yes', 'args': ['Yes']},
+        {'call': 'yn', 'msg': 'str: n', 'args': ['n']},
+    ]
+
+    #---------------------------------------------------------------------------
+    #-- process tests
+    for l_test in l_tests:
+        #-----------------------------------------------------------------------
+        #-- setup test
+        l_check = l_test['args'][0]
+        l_true = True
+        l_false = False
+
+        if len(l_test['args']) > 1: l_true = l_test['args'][1]
+        if len(l_test['args']) > 2: l_false = l_test['args'][2]
+
+        #-----------------------------------------------------------------------
+        #-- make call
+        l_ret = None
+        l_func = ''
+        if l_test['call'] == 'oo':
+            l_func = 'IsOnOrOff'
+            l_ret = Utils.Other.IsOnOrOff(l_check, l_true, l_false)
+        if l_test['call'] == 'tf':
+            l_func = 'IsTrueOrFalse'
+            l_ret = Utils.Other.IsTrueOrFalse(l_check, l_true, l_false)
+        elif l_test['call'] == 'yn':
+            l_func = 'IsYesOrNo'
+            l_ret = Utils.Other.IsYesOrNo(l_check, l_true, l_false)
+                
+        #-----------------------------------------------------------------------
+        #-- print result
+        print(l_dbgfunc + "   Utils.Other." + l_func + "(" + l_test['msg'] + ") = " + str(l_ret))
+
+    print(l_dbgfunc + " -- end:")
+
+
+#-------------------------------------------------------------------------------
+#-- test03: test loading json files
+def test03_():
+    l_dbgfunc = o_dbgfile__ + " :: test03"
     print(l_dbgfunc + " -- beg:")
 
     l_file = "C:\\Users\\DavidCrickenberger\\AppData\\Local\\Google\\Chrome\\User Data\\Profile 8\\Preferences"

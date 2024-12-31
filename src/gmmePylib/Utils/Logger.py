@@ -14,6 +14,7 @@
 #   Command line processor module.
 #===============================================================================
 
+from pathlib import Path
 from time import strftime
 
 import datetime
@@ -30,84 +31,85 @@ import gmmePylib.Utils.Other
 #-------------------------------------------------------------------------------
 #-- Object manager routines for Global functions/objects
 #-------------------------------------------------------------------------------
-class LoggerObjs_() :
-    m_objs = None
-    
-    def __init__(self) :
-        self.m_objs = []
+class LoggerObjs_():
 
-    def __del__(self) :
-        self.m_objs = []
+    _m_objs = None
     
-    def add(self, a_loggerObj) :
-        self.m_objs.append(a_loggerObj)
+    def __init__(self):
+        self._m_objs = []
 
-    def remove(self, a_loggerObj) :
+    def __del__(self):
+        self._m_objs = []
+    
+    def add(self, a_loggerObj):
+        self._m_objs.append(a_loggerObj)
+
+    def remove(self, a_loggerObj):
         l_id = id(a_loggerObj)
-        for l_i in range(0, len(self.m_objs) - 1) :
-            if l_id == id(self.m_objs[l_i]) :
-                del self.m_objs[l_i]
+        for l_i in range(0, len(self._m_objs) - 1):
+            if l_id == id(self._m_objs[l_i]):
+                del self._m_objs[l_i]
                 break
 
 
 #-------------------------------------------------------------------------------
 #-- Global functions/objects
 #-------------------------------------------------------------------------------
-g_loggerObj = None
-g_loggerObjs_ = LoggerObjs_()
+_g_loggerObj__ = None
+_g_loggerObjs__ = LoggerObjs_()
 
 def Debug(a_msg) :
-    if g_loggerObj is not None : g_loggerObj.LogDebug(a_msg, 1)
+    if _g_loggerObj__ is not None : _g_loggerObj__.LogDebug(a_msg, 1)
 def Fatal(a_msg) :
-    if g_loggerObj is not None : g_loggerObj.LogFatal(a_msg, 1)
+    if _g_loggerObj__ is not None : _g_loggerObj__.LogFatal(a_msg, 1)
 def Info(a_msg) :
-    if g_loggerObj is not None : g_loggerObj.LogInfo(a_msg, 1)
+    if _g_loggerObj__ is not None : _g_loggerObj__.LogInfo(a_msg, 1)
 def Raw(a_msg) :
-    if g_loggerObj is not None : g_loggerObj.LogRaw(a_msg, 1)
+    if _g_loggerObj__ is not None : _g_loggerObj__.LogRaw(a_msg, 1)
 def Sql(a_msg) :
-    if g_loggerObj is not None : g_loggerObj.LogSql(a_msg, 1)
+    if _g_loggerObj__ is not None : _g_loggerObj__.LogSql(a_msg, 1)
 def Warn(a_msg) :
-    if g_loggerObj is not None : g_loggerObj.LogWarning(a_msg, 1)
+    if _g_loggerObj__ is not None : _g_loggerObj__.LogWarning(a_msg, 1)
 def Warning(a_msg) :
-    if g_loggerObj is not None : g_loggerObj.LogWarning(a_msg, 1)
+    if _g_loggerObj__ is not None : _g_loggerObj__.LogWarning(a_msg, 1)
 
 def LogDebug(a_msg) :
-    if g_loggerObj is not None : g_loggerObj.LogDebug(a_msg, 1)
+    if _g_loggerObj__ is not None : _g_loggerObj__.LogDebug(a_msg, 1)
 def LogFatal(a_msg) :
-    if g_loggerObj is not None : g_loggerObj.LogFatal(a_msg, 1)
+    if _g_loggerObj__ is not None : _g_loggerObj__.LogFatal(a_msg, 1)
 def LogInfo(a_msg) :
-    if g_loggerObj is not None : g_loggerObj.LogInfo(a_msg, 1)
+    if _g_loggerObj__ is not None : _g_loggerObj__.LogInfo(a_msg, 1)
 #def LoggerGlobalFunctions():
 #    global LogRaw
 def LogRaw(a_msg) :
-    if g_loggerObj is not None : g_loggerObj.LogRaw(a_msg, 1)
+    if _g_loggerObj__ is not None : _g_loggerObj__.LogRaw(a_msg, 1)
 def LogSql(a_msg) :
-    if g_loggerObj is not None : g_loggerObj.LogSql(a_msg, 1)
+    if _g_loggerObj__ is not None : _g_loggerObj__.LogSql(a_msg, 1)
 def LogWarn(a_msg) :
-    if g_loggerObj is not None : g_loggerObj.LogWarning(a_msg, 1)
+    if _g_loggerObj__ is not None : _g_loggerObj__.LogWarning(a_msg, 1)
 def LogWarning(a_msg) :
-    if g_loggerObj is not None : g_loggerObj.LogWarning(a_msg, 1)
+    if _g_loggerObj__ is not None : _g_loggerObj__.LogWarning(a_msg, 1)
 
 
 #-------------------------------------------------------------------------------
 #-- Static functions/objects
 #-------------------------------------------------------------------------------
-def logObjectFuncsCreate_(a_obj):
+def _s_logObjectFuncsCreate_(a_obj):
 
-    global g_loggerObj
+    global _g_loggerObj__
     
-    if g_loggerObj is None:
-        g_loggerObj = a_obj
+    if _g_loggerObj__ is None:
+        _g_loggerObj__ = a_obj
 
 
-def logObjectFuncsRemove_(a_obj):
+def _s_logObjectFuncsRemove_(a_obj):
 
-    global g_loggerObj
+    global _g_loggerObj__
 
-    if id(g_loggerObj) == id(a_obj):
-        g_loggerObj = None
+    if id(_g_loggerObj__) == id(a_obj):
+        _g_loggerObj__ = None
 
-    g_loggerObjs_.remove(a_obj)
+    _g_loggerObjs__.remove(a_obj)
     
 
 #-------------------------------------------------------------------------------
@@ -116,13 +118,13 @@ def logObjectFuncsRemove_(a_obj):
 class LoggerException():
 
     def __init__(self, a_msg):
-        self.m_msg = a_msg
+        self._m_msg = a_msg
 
     
 #-------------------------------------------------------------------------------
 #-- Class Logger
 #-------------------------------------------------------------------------------
-class Logger() :
+class Logger():
 
     #---------------------------------------------------------------------------
     #-- Members
@@ -134,22 +136,22 @@ class Logger() :
     #---------------------------------------------------------------------------
     def __init__(self, **a_args):
 
-        global g_loggerObjs_
+        global _g_loggerObjs__
 
 
         #-----------------------------------------------------------------------
         #-- initialize with default values
-        self.m_hndl = None
-        self.m_file = None
-        self.m_logPath = None
-        self.m_logFile = None
-        self.m_logFull = None
-        self.m_isOpen = False
-        self.m_host = socket.gethostname().ljust(15)
-        self.m_append = False
-        self.m_stdout = True
-        self.m_dtfmt = '%Y%m%d%H%M%S'
-        self.m_pathsep = os.path.sep
+        self._m_hndl    = None
+        self._m_file    = None
+        self._m_logPath = None
+        self._m_logFile = None
+        self._m_logFull = None
+        self._m_isOpen  = False
+        self._m_host    = socket.gethostname().ljust(15)
+        self._m_append  = False
+        self._m_stdout  = True
+        self._m_dtfmt   = '%Y%m%d%H%M%S'
+        self._m_pathsep = os.path.sep
 
 
         #-----------------------------------------------------------------------
@@ -157,13 +159,13 @@ class Logger() :
         #-- value if not passed
         if len(a_args) > 0: self.argsHelper_(a_args)
 
-        if self.m_file is None: sys.argv[0]
-        if self.m_logPath is None: self.m_logPath = os.path.dirname(self.m_file)
-        if self.m_logFile is None: self.m_logFile = os.path.basename(self.m_file) + ".log"
+        if self._m_file is None: sys.argv[0]
+        if self._m_logPath is None: self._m_logPath = Path(self._m_file).parent
+        if self._m_logFile is None: self._m_logFile = Path(self._m_file).name + ".log"
 
         self.argsCheck_()
 
-        g_loggerObjs_.add(self)
+        _g_loggerObjs__.add(self)
 
 
     #---------------------------------------------------------------------------
@@ -171,21 +173,21 @@ class Logger() :
     #---------------------------------------------------------------------------
     def __del__(self):
 
-        global g_loggerObjs_
+        global _g_loggerObjs__
 
         #-----------------------------------------------------------------------
         #-- close if open
-        if self.m_isOpen: self.m_hndl.close()
-        if g_loggerObjs_ is not None: g_loggerObjs_.remove(self)
+        if self._m_isOpen: self._m_hndl.close()
+        if _g_loggerObjs__ is not None: _g_loggerObjs__.remove(self)
 
 
     #---------------------------------------------------------------------------
     #-- argsCheck_
     #---------------------------------------------------------------------------
     def argsCheck_(self):
-        if self.m_file is None: raise LoggerException("'file' not initialized")
-        if self.m_logPath is None: raise LoggerException("'logPath' not initialized")
-        if self.m_logFile is None: raise LoggerException("'logFile' not initialized")
+        if self._m_file is None: raise LoggerException("'file' not initialized")
+        if self._m_logPath is None: raise LoggerException("'logPath' not initialized")
+        if self._m_logFile is None: raise LoggerException("'logFile' not initialized")
 
 
     #---------------------------------------------------------------------------
@@ -196,21 +198,20 @@ class Logger() :
         #-----------------------------------------------------------------------
         #-- process args
         l_members = {
-            'file': 'm_file',
-            'logPath': 'm_logPath',
-            'logFile': 'm_logFile',
-            'append': 'm_tmpAppend',
-            'stdout': 'm_tmpStdout',
-            'dtfmt': 'm_dtfmt'
+            'file':     '_m_file',
+            'logPath':  '_m_logPath',
+            'logFile':  '_m_logFile',
+            'append':   '_m_tmpAppend',
+            'stdout':   '_m_tmpStdout',
+            'dtfmt':    '_m_dtfmt'
         }
         l_found = gmmePylib.Utils.Object.Init(self, l_members, a_args)
-
 
         #-----------------------------------------------------------------------
         #-- finish processing args and make sure require ones are set
         if l_found:
-            if 'tmpAppend' in self.__dict__: self.m_append = gmmePylib.Utils.Other.IsYesOrNo(self.m_tmpAppend)
-            if 'tmpStdout' in self.__dict__: self.m_stdout = gmmePylib.Utils.Other.IsYesOrNo(self.m_tmpStdout)
+            if '_m_tmpAppend' in self.__dict__: self._m_append = gmmePylib.Utils.Other.IsYesOrNo(self._m_tmpAppend)
+            if '_m_tmpStdout' in self.__dict__: self._m_stdout = gmmePylib.Utils.Other.IsYesOrNo(self._m_tmpStdout)
 
 
     #---------------------------------------------------------------------------
@@ -218,18 +219,18 @@ class Logger() :
     #---------------------------------------------------------------------------
     def Close(self):
         
-        self.m_hndl.close()
-        
-        self.m_file = None
-        self.m_logPath = None
-        self.m_logFile = None
-        self.m_logFull = None
-        self.m_isOpen = False
-        self.m_append = False
-        self.m_stdout = True
-        self.m_dtfmt = "%Y%m%d%H%M%S"
+        self._m_hndl.close()
 
-        logObjectFuncsRemove_(self)
+        self._m_file = None
+        self._m_logPath = None
+        self._m_logFile = None
+        self._m_logFull = None
+        self._m_isOpen = False
+        self._m_append = False
+        self._m_stdout = True
+        self._m_dtfmt = "%Y%m%d%H%M%S"
+
+        _s_logObjectFuncsRemove_(self)
 
 
     #---------------------------------------------------------------------------
@@ -243,51 +244,49 @@ class Logger() :
         if len(a_args) > 0: self.argsHelper_(a_args)
         self.argsCheck_()
 
-
         #-----------------------------------------------------------------------
         #-- if log is currently open, then close
         #if self.m_isOpen : self.close()
 
-
         #-----------------------------------------------------------------------
         #-- initialize the following:
         #--   1: set date/time
-        l_dttm = strftime(self.m_dtfmt)
+        l_dttm = strftime(self._m_dtfmt)
 
         #--   2: filename
-        self.m_file = os.path.basename(self.m_file)
-        self.m_file.ljust(10, ' ')
-        l_rc = 0
-
+        self._m_file = str(Path(self._m_file).name)
+        self._m_file.ljust(10, ' ')
 
         #-----------------------------------------------------------------------
         #-- build full name for log file
-        self.m_logPath.rstrip(os.path.sep)
-        self.m_logFull = self.m_logPath
-        if self.m_logPath != '':
-            gmmePylib.Utils.Other.OSMakeFolder(self.m_logPath)
-            self.m_logFull += os.path.sep
-        self.m_logFull += self.m_logFile
+        self._m_logPath = self._m_logPath.rstrip(os.path.sep)
+        self._m_logFull = self._m_logPath
+        if self._m_logPath != '':
+            gmmePylib.Utils.Other.OSMakeFolder(self._m_logPath)
+            self._m_logFull += os.path.sep
+        self._m_logFull += self._m_logFile
 
-        l_tmp = os.path.splitext(self.m_logFull)
-        if l_tmp[1] == '': self.m_logFull += '_' + l_dttm + '.log'
+        if str(Path(self._m_logFull).suffix) == '':
+            self._m_logFull += '_' + l_dttm + '.log'
+
+        self._m_logFull = Path(self._m_logFull)
 
 
         #-----------------------------------------------------------------------
         #-- open the log file or append to the log file
         l_otype = 'w'
-        if self.m_append: l_otype = 'a'
+        if self._m_append: l_otype = 'a'
 
         try :
-            self.m_hndl = open(self.m_logFull, l_otype, 1)
-            self.m_isOpen = True
+            self._m_hndl = open(str(self._m_logFull), l_otype, 1)
+            self._m_isOpen = True
         except IOError:
-            self.m_isOpen = False
+            self._m_isOpen = False
             #traceback.print_exc()
 
-        if self.m_isOpen: logObjectFuncsCreate_(self)
+        if self._m_isOpen: _s_logObjectFuncsCreate_(self)
 
-        return self.m_isOpen
+        return self._m_isOpen
 
 
     #---------------------------------------------------------------------------
@@ -295,10 +294,10 @@ class Logger() :
     #---------------------------------------------------------------------------
     def LogRaw(self, a_msg):
 
-        if self.m_isOpen:
-            self.m_hndl.write(a_msg + '\n')
-            self.m_hndl.flush()
-        if self.m_stdout: print(a_msg)
+        if self._m_isOpen:
+            self._m_hndl.write(a_msg + '\n')
+            self._m_hndl.flush()
+        if self._m_stdout: print(a_msg)
 
 
     #---------------------------------------------------------------------------
@@ -327,57 +326,58 @@ class Logger() :
         #-----------------------------------------------------------------------
         #-- build message
         l_msg = gmmePylib.Utils.Other.FormatTime(l_time, '%m/%d/%Y %H:%M:%S.') + str(l_timeMsec)[0:3].zfill(3) + ' '
-        l_msg += self.m_host + ' '
-        l_msg += self.m_file + ' '
+        l_msg += self._m_host + ' '
+        l_msg += self._m_file + ' '
         l_msg += l_func.ljust(20) + ' '
         l_msg += str(l_line).rjust(5) + ' '
         l_msg += 'system   '
         l_msg += a_type.ljust(6) + ' '
         l_msg += a_msg
 
-        if self.m_isOpen:
-            self.m_hndl.write(l_msg + '\n')
-            self.m_hndl.flush()
-        if self.m_stdout: print(l_msg)
+        self.LogRaw(l_msg)
+#        if self._m_isOpen:
+#            self._m_hndl.write(l_msg + '\n')
+#            self.m__hndl.flush()
+#        if self._m_stdout: print(l_msg)
 
 
     #---------------------------------------------------------------------------
     #-- log functions
     #---------------------------------------------------------------------------
-    def Debug(self, a_msg, a_level = 0): self.msg_('debug', a_msg, a_level + 1)
-    def Fatal(self, a_msg, a_level = 0): self.msg_('fatal', a_msg, a_level + 1)
-    def Info(self, a_msg, a_level = 0): self.msg_('info', a_msg, a_level + 1)
-    def Sql(self, a_msg, a_level = 0): self.msg_('sql', a_msg, a_level + 1)
-    def Warn(self, a_msg, a_level = 0): self.msg_('warn', a_msg, a_level + 1)
-    def Warning(self, a_msg, a_level = 0): self.msg_('warn', a_msg, a_level + 1)
+    def Debug(self, a_msg, a_level = 0):        self.msg_('debug', a_msg, a_level + 1)
+    def Fatal(self, a_msg, a_level = 0):        self.msg_('fatal', a_msg, a_level + 1)
+    def Info(self, a_msg, a_level = 0):         self.msg_('info', a_msg, a_level + 1)
+    def Sql(self, a_msg, a_level = 0):          self.msg_('sql', a_msg, a_level + 1)
+    def Warn(self, a_msg, a_level = 0):         self.msg_('warn', a_msg, a_level + 1)
+    def Warning(self, a_msg, a_level = 0):      self.msg_('warn', a_msg, a_level + 1)
 
-    def LogDebug(self, a_msg, a_level = 0): self.msg_('debug', a_msg, a_level + 1)
-    def LogFatal(self, a_msg, a_level = 0): self.msg_('fatal', a_msg, a_level + 1)
-    def LogInfo(self, a_msg, a_level = 0): self.msg_('info', a_msg, a_level + 1)
-    def LogSql(self, a_msg, a_level = 0): self.msg_('sql', a_msg, a_level + 1)
-    def LogWarn(self, a_msg, a_level = 0): self.msg_('warn', a_msg, a_level + 1)
-    def LogWarning(self, a_msg, a_level = 0): self.msg_('warn', a_msg, a_level + 1)
+    def LogDebug(self, a_msg, a_level = 0):     self.msg_('debug', a_msg, a_level + 1)
+    def LogFatal(self, a_msg, a_level = 0):     self.msg_('fatal', a_msg, a_level + 1)
+    def LogInfo(self, a_msg, a_level = 0):      self.msg_('info', a_msg, a_level + 1)
+    def LogSql(self, a_msg, a_level = 0):       self.msg_('sql', a_msg, a_level + 1)
+    def LogWarn(self, a_msg, a_level = 0):      self.msg_('warn', a_msg, a_level + 1)
+    def LogWarning(self, a_msg, a_level = 0):   self.msg_('warn', a_msg, a_level + 1)
 
 
     #---------------------------------------------------------------------------
     #-- member access functions
     #---------------------------------------------------------------------------
-    def Append(self): return self.m_append
-    def DateFormat(self): return self.m_dtfmt
-    def Dtfmt(self): return self.m_dtfmt
-    def File(self): return self.m_file
-    def IsOpen(self): return self.m_isOpen
-    def LogFile(self): return self.m_logFile
-    def LogFull(self): return self.m_logFull
-    def LogPath(self): return self.m_logPath
-    def Stdout(self): return self.m_stdout
+    def Append(self):       return self._m_append
+    def DateFormat(self):   return self._m_dtfmt
+    def Dtfmt(self):        return self._m_dtfmt
+    def File(self):         return self._m_file
+    def IsOpen(self):       return self._m_isOpen
+    def LogFile(self):      return self._m_logFile
+    def LogFull(self):      return self._m_logFull
+    def LogPath(self):      return self._m_logPath
+    def Stdout(self):       return self._m_stdout
 
 
 #-------------------------------------------------------------------------------
 #-- Create wrapper functions
 #-------------------------------------------------------------------------------
-def CreateLogger(**a_argv):
-    return Logger(**a_argv)
+def Create(**a_args):
+    return Logger(**a_args)
 
 
 #-------------------------------------------------------------------------------

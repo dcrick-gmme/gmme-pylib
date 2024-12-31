@@ -27,6 +27,14 @@ elif platform.system() == "Linux":
     from .os.linux import *
 
 
+#-------------------------------------------------------------------------------
+#-- Global functions/objects
+#-------------------------------------------------------------------------------
+_g_utilsOtherTrue__ = ['1', 'y', 'yes', 't', 'true', 'on']
+_g_utilsOtherFalse__ = ['0', 'n', 'no', 'f', 'false', 'off']
+
+
+
 """ import win32api
 import win32con
 
@@ -216,21 +224,93 @@ def SplitTimeSeconds(a_time):
 
     return (l_time, l_timeMsec)
 
+
 #-------------------------------------------------------------------------------
-#	isYesOrNo
+#	IsBool
+#
+#	This routine returns true if a_test represents bool value
+#-------------------------------------------------------------------------------
+def IsBool(a_test):
+
+    if type(a_test) == bool: return True
+    if type(a_test) == int:
+        if a_test == 1 or a_test == 0: return True
+
+    if a_test != str:
+        return False
+
+    l_test = a_test.lower()
+    if l_test in _g_utilsOtherTrue__ or l_test in _g_utilsOtherFalse__:
+        return True
+    return False
+
+
+#			if (l_opt == "1" || l_opt == "T" || l_opt == "TRUE" || l_opt == "ON" || l_opt == "Y" || l_opt == "YES")
+#				return a_true;
+#			if (l_opt == "0" || l_opt == "F" || l_opt == "FALSE" || l_opt == "OFF" || l_opt == "N" || l_opt == "NO")
+#				return a_false;
+
+
+
+#_g_utilsOtherTrue__ = ['1', 'y', 'yes', 't', 'true', 'on']
+#_g_utilsOtherFalse__ = ['0', 'n', 'no', 'f', 'false', 'off']
+
+
+#-------------------------------------------------------------------------------
+#	IsTrueOrFalse
 #
 #	This routine returns a_retTrue if a_val is (1, yes, on, true) else it
 #   returns a_retFalse
 #-------------------------------------------------------------------------------
-def IsYesOrNo(a_val, a_retTrue = True, a_retFalse = False):
+def IsTrueOrFalse(a_test:any, a_retTrue:any = True, a_retFalse:any = False):
 
-    l_val = a_val
-    if type(l_val).__name__ == 'str': l_val.lower()
+    if type(a_test) == bool:
+        if a_test: return a_retTrue
+        return a_retFalse
 
-    if l_val in [1, 'yes', 'y', 'on', 'true', 't']:
+    if type(a_test) == int:
+        if a_test == 1: return a_retTrue
+        return a_retFalse
+
+    if type(a_test) != str:
+        return a_retFalse
+
+    if a_test.lower() in _g_utilsOtherTrue__:
         return a_retTrue
-
     return a_retFalse
+
+    l_test = a_test
+    if type(l_test) == str:
+        l_test = str(a_test).lower()
+    else:
+        return a_retFalse
+
+    if l_test in [1, 'y', 'yes', 'on', 't', 'true']:
+        return a_retTrue
+    return a_retFalse
+
+#			if (l_opt == "1" || l_opt == "T" || l_opt == "TRUE" || l_opt == "ON" || l_opt == "Y" || l_opt == "YES")
+#				return a_true;
+#			if (l_opt == "0" || l_opt == "F" || l_opt == "FALSE" || l_opt == "OFF" || l_opt == "N" || l_opt == "NO")
+#				return a_false;
+
+#-------------------------------------------------------------------------------
+#	IsOnorOff
+#
+#	This routine returns a_retYes if a_val is (on, off) else it
+#   returns a_retNo
+#-------------------------------------------------------------------------------
+def IsOnOrOff(a_test:any, a_retOn:bool = True, a_retOff:bool = False):
+    return IsTrueOrFalse(a_test, a_retOn, a_retOff)
+
+#-------------------------------------------------------------------------------
+#	IsYesOrNo
+#
+#	This routine returns a_retYes if a_val is (1, yes, on, true) else it
+#   returns a_retNo
+#-------------------------------------------------------------------------------
+def IsYesOrNo(a_test:any, a_retYes:bool = True, a_retNo:bool = False):
+    return IsTrueOrFalse(a_test, a_retYes, a_retNo)
 
 
 #-------------------------------------------------------------------------------

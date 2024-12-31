@@ -14,12 +14,12 @@
 #	Command line processor module.
 #===============================================================================
 
+from pathlib import Path
+
 import errno
 import os
-import os.path
-import re
 import random
-import sys
+import re
 
 
 #-------------------------------------------------------------------------------
@@ -37,7 +37,7 @@ def ISOPT_SETOFF():     return 6
 #-------------------------------------------------------------------------------
 #-- static functions
 #-------------------------------------------------------------------------------
-def _s_dumpAddArgsParameters(a_dbgfunc:str, a_argv):
+def _s_dumpAddArgsParameters_(a_dbgfunc:str, a_argv):
     print(a_dbgfunc + " -- beg:")
     print(a_dbgfunc + " :: cwd => " + os.getcwd())
     print(a_dbgfunc + " :: type(a_argv) => " + str(type(a_argv)))
@@ -83,7 +83,7 @@ class CmdLine():
     def AddArgs(self, a_argv:any):
 
         l_dbgfunc = "DBG-Utils.CmdLine.AddArgs"
-        if self._m_dbgOn: _s_dumpAddArgsParameters(l_dbgfunc, a_argv)
+        if self._m_dbgOn: _s_dumpAddArgsParameters_(l_dbgfunc, a_argv)
 
         #-----------------------------------------------------------------------
         #-- call correct AddXXXX method
@@ -102,7 +102,7 @@ class CmdLine():
     def AddArgsArray(self, a_argv:list):
 
         l_dbgfunc = "DBG-Utils.CmdLine.AddArgsArray"
-        if self._m_dbgOn: _s_dumpAddArgsParameters(l_dbgfunc, a_argv)
+        if self._m_dbgOn: _s_dumpAddArgsParameters_(l_dbgfunc, a_argv)
 
         #-----------------------------------------------------------------------
         #-- process
@@ -125,26 +125,14 @@ class CmdLine():
 
                 #---------------------------------------------------------------
                 #-- add item to list
-                l_opt, l_tags = self._checkOptForTags(l_opt.upper())
-                self._m_opts[l_opt] = {"val": self._subEnv(l_val), "tags": l_tags}
+                l_opt, l_tags = self.checkOptForTags_(l_opt.upper())
+                self._m_opts[l_opt] = {"val": self.subEnv_(l_val), "tags": l_tags}
             elif (l_arg[0] == '@') :
-                self.AddArgsFile(self._subEnv(l_arg[1:], True))
+                self.AddArgsFile(self.subEnv_(l_arg[1:], True))
 
             l_i = l_i + 1
 
         self._m_isInit = 1
-
-    def _checkOptForTags(self, a_opt:str):
-        l_opt = a_opt
-        l_tags = []
-        l_split = re.split("(^.*)(\\#\\{(.*)\\}$)", a_opt)
-        if len(l_split) > 1:
-            l_opt = l_split[1]
-            l_tagsTmp = re.split("[ ,\\:\\|]", l_split[3])
-            for l_tag in l_tagsTmp:
-                l_tags.append("HIDE" if l_tag == "HIDE" or l_tag == "HIDDEN" or l_tag == "SECRET" else l_tag)
-
-        return l_opt, l_tags
 
 
     #---------------------------------------------------------------------------
@@ -154,26 +142,28 @@ class CmdLine():
 
         l_dbgfunc = "DBG-Utils.CmdLine.AddArgsFile"
 
+        l_file = Path(a_file).expanduser()
+        
+
         #-----------------------------------------------------------------------
         #-- dbg stuff
         if self._m_dbgOn:
             print(l_dbgfunc + " :: cwd => " + os.getcwd())
-            print(l_dbgfunc + " :: a_file => " + a_file)
+            print(l_dbgfunc + " :: file => " + str(l_file))
 
         #-----------------------------------------------------------------------
         #-- make sure file exists
-        if not os.path.exists(a_file):
+        if not l_file.exists():
             if self._m_dbgOn: print(l_dbgfunc + " :: ERROR !!! FILE DOES NOT EXISTS !!!")
             raise FileNotFoundError(errno.ENOENT,
                                     os.strerror(errno.ENOENT),
-                                    "OPT file could not be found: " + a_file + " [cwd = " + os.getcwd() + "]")
+                                    "OPT file could not be found: " + str(l_file) + " [cwd = " + os.getcwd() + "]")
 
         #-----------------------------------------------------------------------
         #-- open file and process
-        l_file = os.path.expanduser(a_file)
-        if self._m_dbgOn: print(l_dbgfunc + " :: opening file => " + l_file)
+        if self._m_dbgOn: print(l_dbgfunc + " :: opening file => " + str(l_file))
 
-        with open(l_file) as l_optfile:
+        with l_file.open() as l_optfile:
             for l_line in l_optfile:
                 #-- strip newline and see if we have comments
                 l_line = l_line.rstrip().lstrip()
@@ -405,7 +395,7 @@ class CmdLine():
 
 
     #---------------------------------------------------------------------------
-    #-- isOpt
+    #-- IsOpt
     #---------------------------------------------------------------------------
     def IsOpt(self, a_opt:str):
 
@@ -413,13 +403,30 @@ class CmdLine():
 
         if a_opt.upper() not in self._m_opts:
             return False
+
         return True
 
 
     #---------------------------------------------------------------------------
-    #-- _subEnv
+    #-- checkOptForTags_
     #---------------------------------------------------------------------------
-    def _subEnv(self, a_str:str, a_isPath:bool = False):
+    def checkOptForTags_(self, a_opt:str):
+        l_opt = a_opt
+        l_tags = []
+        l_split = re.split("(^.*)(\\#\\{(.*)\\}$)", a_opt)
+        if len(l_split) > 1:
+            l_opt = l_split[1]
+            l_tagsTmp = re.split("[ ,\\:\\|]", l_split[3])
+            for l_tag in l_tagsTmp:
+                l_tags.append("HIDE" if l_tag == "HIDE" or l_tag == "HIDDEN" or l_tag == "SECRET" else l_tag)
+
+        return l_opt, l_tags
+
+
+    #---------------------------------------------------------------------------
+    #-- subEnv_
+    #---------------------------------------------------------------------------
+    def subEnv_(self, a_str:str, a_isPath:bool = False):
         #-----------------------------------------------------------------------
         #-- see if anything to check
         if a_str is None: return None
