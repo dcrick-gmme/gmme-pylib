@@ -34,7 +34,8 @@ g_dbgOn = False
 #-------------------------------------------------------------------------------
 #-- init: initial object members from dict object
 #-------------------------------------------------------------------------------
-def Init(a_obj, a_members, a_args, a_valueAsStr = True):
+def Init(a_obj, a_members, a_args, a_valueAsStr = False):
+
     #---------------------------------------------------------------------------
     #-- produce a list of uppercase keys to map parameters back using case
     #-- insenstive values and then process a_args
@@ -44,10 +45,7 @@ def Init(a_obj, a_members, a_args, a_valueAsStr = True):
     for l_arg in list(a_args.keys()):
         l_argu = l_arg.upper()
         if l_argu in l_members:
-            if a_valueAsStr:
-                l_value = str(a_args[l_arg])
-            else:
-                l_value = a_args[l_arg]
+            l_value = a_args[l_arg]
             a_obj.__dict__[a_members[l_members[l_arg.upper()]]] = l_value
             l_found = True
 
