@@ -58,37 +58,35 @@ class LoggerObjs_():
 _g_loggerObj__ = None
 _g_loggerObjs__ = LoggerObjs_()
 
-def Debug(a_msg) :
-    if _g_loggerObj__ is not None : _g_loggerObj__.LogDebug(a_msg, 1)
-def Fatal(a_msg) :
-    if _g_loggerObj__ is not None : _g_loggerObj__.LogFatal(a_msg, 1)
-def Info(a_msg) :
-    if _g_loggerObj__ is not None : _g_loggerObj__.LogInfo(a_msg, 1)
-def Raw(a_msg) :
-    if _g_loggerObj__ is not None : _g_loggerObj__.LogRaw(a_msg, 1)
-def Sql(a_msg) :
-    if _g_loggerObj__ is not None : _g_loggerObj__.LogSql(a_msg, 1)
-def Warn(a_msg) :
-    if _g_loggerObj__ is not None : _g_loggerObj__.LogWarning(a_msg, 1)
-def Warning(a_msg) :
-    if _g_loggerObj__ is not None : _g_loggerObj__.LogWarning(a_msg, 1)
+def Debug(a_msg:str):
+    if _g_loggerObj__ is not None: _g_loggerObj__.LogDebug(a_msg, 1)
+def Fatal(a_msg:str):
+    if _g_loggerObj__ is not None: _g_loggerObj__.LogFatal(a_msg, 1)
+def Info(a_msg:str):
+    if _g_loggerObj__ is not None: _g_loggerObj__.LogInfo(a_msg, 1)
+def Raw(a_msg:str):
+    if _g_loggerObj__ is not None: _g_loggerObj__.LogRaw(a_msg, 1)
+def Sql(a_msg):
+    if _g_loggerObj__ is not None: _g_loggerObj__.LogSql(a_msg, 1)
+def Warn(a_msg):
+    if _g_loggerObj__ is not None: _g_loggerObj__.LogWarning(a_msg, 1)
+def Warning(a_msg):
+    if _g_loggerObj__ is not None: _g_loggerObj__.LogWarning(a_msg, 1)
 
-def LogDebug(a_msg) :
-    if _g_loggerObj__ is not None : _g_loggerObj__.LogDebug(a_msg, 1)
-def LogFatal(a_msg) :
-    if _g_loggerObj__ is not None : _g_loggerObj__.LogFatal(a_msg, 1)
-def LogInfo(a_msg) :
-    if _g_loggerObj__ is not None : _g_loggerObj__.LogInfo(a_msg, 1)
-#def LoggerGlobalFunctions():
-#    global LogRaw
-def LogRaw(a_msg) :
-    if _g_loggerObj__ is not None : _g_loggerObj__.LogRaw(a_msg, 1)
-def LogSql(a_msg) :
-    if _g_loggerObj__ is not None : _g_loggerObj__.LogSql(a_msg, 1)
-def LogWarn(a_msg) :
-    if _g_loggerObj__ is not None : _g_loggerObj__.LogWarning(a_msg, 1)
-def LogWarning(a_msg) :
-    if _g_loggerObj__ is not None : _g_loggerObj__.LogWarning(a_msg, 1)
+def LogDebug(a_msg):
+    if _g_loggerObj__ is not None: _g_loggerObj__.LogDebug(a_msg, 1)
+def LogFatal(a_msg):
+    if _g_loggerObj__ is not None: _g_loggerObj__.LogFatal(a_msg, 1)
+def LogInfo(a_msg):
+    if _g_loggerObj__ is not None: _g_loggerObj__.LogInfo(a_msg, 1)
+def LogRaw(a_msg):
+    if _g_loggerObj__ is not None: _g_loggerObj__.LogRaw(a_msg, 1)
+def LogSql(a_msg):
+    if _g_loggerObj__ is not None: _g_loggerObj__.LogSql(a_msg, 1)
+def LogWarn(a_msg):
+    if _g_loggerObj__ is not None: _g_loggerObj__.LogWarning(a_msg, 1)
+def LogWarning(a_msg):
+    if _g_loggerObj__ is not None: _g_loggerObj__.LogWarning(a_msg, 1)
 
 
 #-------------------------------------------------------------------------------
@@ -389,22 +387,3 @@ def Create(**a_args):
 #    l_appname = os.path.splitext(l_appname)[0]
 
 #    return l_appname
- 
-
-#===============================================================================
-# Self test of module
-#===============================================================================
-'''
-if __name__ == "__main__" :
-
-    l_t1 = time.time()
-    l_t2 = time.localtime(l_t1)
-    l_ts = time.strftime('%Y%m%d%H%M%S', l_t2)
-
-    l_appname = sys.argv[0]
-    l_logger = Logger(file=l_appname, logpath='d:\\junk\\tlogs', logfile='test.log', append=True)
-    l_logger.Open()
-    l_logger.LogRaw('test message 1')
-#    LogRaw('test message 2')
-    l_rc = 0
-'''

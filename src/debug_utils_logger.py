@@ -28,7 +28,8 @@ import gmmePylib.Utils.Logger
 o_dbgTests__ = {
     'test01': False,
     'test02': False,
-    'test03': True,
+    'test03': False,
+    'test04': True,
 }
 
 o_dbgfile__ = Path(__file__).name
@@ -101,12 +102,20 @@ def test02_():
 
 #-------------------------------------------------------------------------------
 #-- test03: call each logging helper with a fixed log file that overwrites using
-# --        both the obj and the module
+#--        both the obj and the module
 def test03_():
     l_logger = gmmePylib.Utils.Logger.Create(file = sys.argv[0], logpath = o_dbglogPath__, logfile = 'debug_utils_logger-test03.log', append = False)
     l_logger.Open()
     testCommon_(l_logger, 'test03')
 
+
+#-------------------------------------------------------------------------------
+#-- test04: call each logging helper with a fixed log file using date/time
+#--         default format
+def test04_():
+    l_logger = gmmePylib.Utils.Logger.Create(file = sys.argv[0], logpath = o_dbglogPath__, logfile = 'debug_utils_logger-test04', append = False)
+    l_logger.Open()
+    testCommon_(l_logger, 'test04')
 
 
 ''' 
@@ -144,20 +153,6 @@ def LogWarning(a_msg) :
 '''
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -173,17 +168,18 @@ print(o_dbgfile__ + " :: logpath = " + str(o_dbglogPath__))
 if o_dbgTests__['test01']: test01_()
 if o_dbgTests__['test02']: test02_()
 if o_dbgTests__['test03']: test03_()
+if o_dbgTests__['test04']: test04_()
 
 print(o_dbgfile__ + " - end:")
 
 
 #-------------------------------------------------------------------------------
 #-- get logpath
-l_t1 = time.time()
-l_t2 = time.localtime(l_t1)
-l_ts = time.strftime('%Y%m%d%H%M%S', l_t2)
+#l_t1 = time.time()
+#l_t2 = time.localtime(l_t1)
+#l_ts = time.strftime('%Y%m%d%H%M%S', l_t2)
 
-l_appname = sys.argv[0]
+#l_appname = sys.argv[0]
 #l_dirname = os.path.dirname(l_appname)
 #l_temp = os.path.splitext(l_appname)
 #l_appname = os.path.basename(sys.argv[0])
@@ -194,4 +190,4 @@ l_appname = sys.argv[0]
 #l_logger.Open()
 #l_logger.LogRaw('test message 1')
 #    LogRaw('test message 2')
-l_rc = 0
+#l_rc = 0
