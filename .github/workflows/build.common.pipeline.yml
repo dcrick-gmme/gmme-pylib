@@ -1,0 +1,38 @@
+#===============================================================================
+# gmme-pylib for Python
+# Copyright (c) 2002 - 2024, GMM Enterprises, LLC.
+# Licensed under the GMM Software License
+# All rights reserved 
+#===============================================================================
+#	Author:	David Crickenberger
+# ------------------------------------------------------------------------------
+#	Description:
+#		GitHub CI build pipeline for gmmePylib
+#===============================================================================
+
+name: gmmePylib package CI build
+
+on:
+    workflow_dispatch:
+      
+#    push:
+#        branches: [main]
+
+jobs:
+    build:
+        runs-on: ${{ vars.BUILD_RUNSON }}-${{ vars.BUILD_RUNSON_WINDOWS }}
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Setup python ${{ vars.BUILD_PYTHON_VER }}
+              uses: actions/setup-python@v5
+              with:
+                python-version: ${{ vars.BUILD_PYTHON_VER }}
+            
+            - name: Check python version
+              run: python --version
+
+            - name: Run package creation
+              run: |
+                pip install poetry
+                poetry build
