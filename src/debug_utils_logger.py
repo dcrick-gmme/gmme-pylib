@@ -49,6 +49,7 @@ def testCommon_(a_logger:gmmePylib.Logger.Logger, a_test:str):
     l_line = l_tab + "-----------------"
 
     a_logger.Debug(l_object + "Debug")
+    a_logger.Error(l_object + "Error")
     a_logger.Fatal(l_object + "Fatal")
     a_logger.Info(l_object + "Info")
     a_logger.Sql(l_object + "Sql")
@@ -57,6 +58,7 @@ def testCommon_(a_logger:gmmePylib.Logger.Logger, a_test:str):
 
     a_logger.LogInfo(l_line)
     a_logger.LogDebug(l_object + "LogDebug")
+    a_logger.LogError(l_object + "LogError")
     a_logger.LogFatal(l_object + "LogFatal")
     a_logger.LogInfo(l_object + "LogInfo")
     a_logger.LogSql(l_object + "LogSql")
@@ -65,6 +67,7 @@ def testCommon_(a_logger:gmmePylib.Logger.Logger, a_test:str):
 
     gmmePylib.Utils.Logger.Info(l_line)
     gmmePylib.Utils.Logger.Debug(l_module + "Debug")
+    gmmePylib.Utils.Logger.Error(l_module + "Error")
     gmmePylib.Utils.Logger.Fatal(l_module + "Fatal")
     gmmePylib.Utils.Logger.Info(l_module + "Info")
     gmmePylib.Utils.Logger.Sql(l_module + "Sql")
@@ -73,6 +76,7 @@ def testCommon_(a_logger:gmmePylib.Logger.Logger, a_test:str):
 
     gmmePylib.Utils.Logger.LogInfo(l_line)
     gmmePylib.Utils.Logger.LogDebug(l_module + "LogDebug")
+    gmmePylib.Utils.Logger.LogError(l_module + "LogError")
     gmmePylib.Utils.Logger.LogFatal(l_module + "LogFatal")
     gmmePylib.Utils.Logger.LogInfo(l_module + "LogInfo")
     gmmePylib.Utils.Logger.LogSql(l_module + "LogSql")
@@ -116,41 +120,6 @@ def test04_():
     l_logger = gmmePylib.Utils.Logger.Create(file = sys.argv[0], logpath = o_dbglogPath__, logfile = 'debug_utils_logger-test04', append = False)
     l_logger.Open()
     testCommon_(l_logger, 'test04')
-
-
-''' 
-def Debug(a_msg) :
-    if _g_loggerObj__ is not None : _g_loggerObj__.LogDebug(a_msg, 1)
-def Fatal(a_msg) :
-    if _g_loggerObj__ is not None : _g_loggerObj__.LogFatal(a_msg, 1)
-def Info(a_msg) :
-    if _g_loggerObj__ is not None : _g_loggerObj__.LogInfo(a_msg, 1)
-def Raw(a_msg) :
-    if _g_loggerObj__ is not None : _g_loggerObj__.LogRaw(a_msg, 1)
-def Sql(a_msg) :
-    if _g_loggerObj__ is not None : _g_loggerObj__.LogSql(a_msg, 1)
-def Warn(a_msg) :
-    if _g_loggerObj__ is not None : _g_loggerObj__.LogWarning(a_msg, 1)
-def Warning(a_msg) :
-    if _g_loggerObj__ is not None : _g_loggerObj__.LogWarning(a_msg, 1)
-
-def LogDebug(a_msg) :
-    if _g_loggerObj__ is not None : _g_loggerObj__.LogDebug(a_msg, 1)
-def LogFatal(a_msg) :
-    if _g_loggerObj__ is not None : _g_loggerObj__.LogFatal(a_msg, 1)
-def LogInfo(a_msg) :
-    if _g_loggerObj__ is not None : _g_loggerObj__.LogInfo(a_msg, 1)
-#def LoggerGlobalFunctions():
-#    global LogRaw
-def LogRaw(a_msg) :
-    if _g_loggerObj__ is not None : _g_loggerObj__.LogRaw(a_msg, 1)
-def LogSql(a_msg) :
-    if _g_loggerObj__ is not None : _g_loggerObj__.LogSql(a_msg, 1)
-def LogWarn(a_msg) :
-    if _g_loggerObj__ is not None : _g_loggerObj__.LogWarning(a_msg, 1)
-def LogWarning(a_msg) :
-    if _g_loggerObj__ is not None : _g_loggerObj__.LogWarning(a_msg, 1)
-'''
 
 
 #-------------------------------------------------------------------------------

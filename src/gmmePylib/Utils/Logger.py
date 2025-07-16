@@ -60,6 +60,8 @@ _g_loggerObjs__ = LoggerObjs_()
 
 def Debug(a_msg:str):
     if _g_loggerObj__ is not None: _g_loggerObj__.LogDebug(a_msg, 1)
+def Error(a_msg:str):
+    if _g_loggerObj__ is not None: _g_loggerObj__.LogError(a_msg, 1)
 def Fatal(a_msg:str):
     if _g_loggerObj__ is not None: _g_loggerObj__.LogFatal(a_msg, 1)
 def Info(a_msg:str):
@@ -75,6 +77,8 @@ def Warning(a_msg):
 
 def LogDebug(a_msg):
     if _g_loggerObj__ is not None: _g_loggerObj__.LogDebug(a_msg, 1)
+def LogError(a_msg:str):
+    if _g_loggerObj__ is not None: _g_loggerObj__.LogError(a_msg, 1)
 def LogFatal(a_msg):
     if _g_loggerObj__ is not None: _g_loggerObj__.LogFatal(a_msg, 1)
 def LogInfo(a_msg):
@@ -343,6 +347,7 @@ class Logger():
     #-- log functions
     #---------------------------------------------------------------------------
     def Debug(self, a_msg, a_level = 0):        self.msg_('debug', a_msg, a_level + 1)
+    def Error(self, a_msg, a_level = 0):        self.msg_('error', a_msg, a_level + 1)
     def Fatal(self, a_msg, a_level = 0):        self.msg_('fatal', a_msg, a_level + 1)
     def Info(self, a_msg, a_level = 0):         self.msg_('info', a_msg, a_level + 1)
     def Sql(self, a_msg, a_level = 0):          self.msg_('sql', a_msg, a_level + 1)
@@ -350,6 +355,7 @@ class Logger():
     def Warning(self, a_msg, a_level = 0):      self.msg_('warn', a_msg, a_level + 1)
 
     def LogDebug(self, a_msg, a_level = 0):     self.msg_('debug', a_msg, a_level + 1)
+    def LogError(self, a_msg, a_level = 0):     self.msg_('error', a_msg, a_level + 1)
     def LogFatal(self, a_msg, a_level = 0):     self.msg_('fatal', a_msg, a_level + 1)
     def LogInfo(self, a_msg, a_level = 0):      self.msg_('info', a_msg, a_level + 1)
     def LogSql(self, a_msg, a_level = 0):       self.msg_('sql', a_msg, a_level + 1)
