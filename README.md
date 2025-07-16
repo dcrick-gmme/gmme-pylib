@@ -2,7 +2,13 @@
 GMME Lib migrated to python
 
 ## Supported platforms:
-> windows
+### windows
+#### packages to install:
+- pip install pywin32
+
+
+
+
 
 > linux
 
